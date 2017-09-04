@@ -10,6 +10,7 @@ from optparse import OptionParser
 
 class Game:
     def __init__(self, n, m=None):
+        '''The initializer for the game sets up the initial position and the game board'''
         if m is None:
             m = n
         self.n = n
@@ -17,54 +18,78 @@ class Game:
         self.x = 0
         self.y = 0
         self.board = [[" " for j in range(n)] for i in range(m)]
+
     def __str__(self):
+        '''This method returns the base string representation of the Game class.'''
         return "   "+" ".join([str(i) for i in range(self.n)])+"\n"+ "\n".join([str(i)+": "+" ".join([self.board[i][j] for j in range(self.n)]) for i in range(self.m)])
+    
     def up(self):
+        '''Moves the position up and marks it'''
         self.x = self.x -1  if self.x > 0 else 0
         self.board[self.x][self.y] = 'X'
+
     def down(self):
+        '''Moves the position down and marks it'''
         self.x = self.x +1 if self.x < self.m-1 else self.m-1
         self.board[self.x][self.y] = 'X'
+    
     def left(self):
+        '''Moves the position left and marks it'''
         self.y = self.y -1 if self.y > 0 else 0
         self.board[self.x][self.y] = 'X'
+    
     def right(self):
+        '''Moves the position right and marks it'''
         self.y = self.y+1 if self.y < self.n -1 else self.n -1
         self.board[self.x][self.y] = 'X'
+    
     def clear(self):
+        '''Clears the board to default values'''
         self.board = [[" " for j in range(self.n)]for i in range(self.m)]
 
 def main(stdscr):
-        parser = OptionParser()
-        parser.add_option("-n", dest="n", help="n size argument to game")
-        parser.add_option("-m", dest="m", help="m size argument to game")
-        options,args = parser.parse_args()
-        stdscr.clear()
-        if options.m and options.n:
-            game = Game(int(options.n),int(options.m))
-        elif options.n:
-            game = Game(int(options.n))
-        else:
-            game = Game(8,8)
-        while True:
-            stdscr.addstr(0, 0, "Etch-a-sketch for ECE497-01 Embedded 32-bit Linux By: Luke Craig")
-            stdscr.addstr(1, 0, "USE YOUR ARROW KEYS to move, c to clear, and q to quit.")
-            stdscr.addstr(2, 0, str(game))
-            stdscr.refresh()
-            curs_set(0)
-            a = stdscr.getch()
-            if a == ord('q') or a == ord('Q'):
-                break
-            elif a == KEY_DOWN:
-                game.down()
-            elif a == KEY_UP:
-                game.up()
-            elif a == KEY_LEFT:
-                game.left()
-            elif a == KEY_RIGHT:
-                game.right()
-            elif a == ord('c') or a == ord('C'):
-                game.clear()
-        print("THANKS FOR PLAYING!")
+    # parse command line options
+    parser = OptionParser()
+    parser.add_option("-n", dest="n", help="n size argument to game")
+    parser.add_option("-m", dest="m", help="m size argument to game")
+    options,args = parser.parse_args()
 
+    # clear screen
+    stdscr.clear()
+
+    # set up game with command line options
+    if options.m and options.n:
+        game = Game(int(options.n),int(options.m))
+    elif options.n:
+        game = Game(int(options.n))
+    else:
+        game = Game(8,8) # default
+
+    # run main game
+    while True:
+        # print usage
+        stdscr.addstr(0, 0, "Etch-a-sketch for ECE497-01 Embedded 32-bit Linux By: Luke Craig")
+        stdscr.addstr(1, 0, "USE YOUR ARROW KEYS to move, c to clear, and q to quit.")
+        stdscr.addstr(2, 0, str(game))
+        stdscr.refresh()
+        curs_set(0) # this just prevents a blinking cursor
+
+        #take user input
+        a = stdscr.getch()
+
+        #react to user input appopriately with game logic
+        if a == ord('q') or a == ord('Q'):
+           break
+        elif a == KEY_DOWN:
+           game.down()
+        elif a == KEY_UP:
+           game.up()
+        elif a == KEY_LEFT:
+           game.left()
+        elif a == KEY_RIGHT:
+           game.right()
+        elif a == ord('c') or a == ord('C'):
+           game.clear()
+
+# start GUI from curses
 wrapper(main)
