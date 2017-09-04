@@ -1,3 +1,9 @@
+#!/usr/bin/python
+
+# By: Luke Craig
+# Dr. Yoder
+# ECE497 Embedded 32-bit Linux
+# HW01
 from curses import wrapper
 from curses import KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT, curs_set
 from optparse import OptionParser
