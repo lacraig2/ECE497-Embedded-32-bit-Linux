@@ -4,8 +4,8 @@
 # Dr. Yoder
 # ECE497 Embedded 32-bit Linux
 # HW01
-from curses import wrapper
-from curses import KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT, curs_set
+
+from curses import KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT, curs_set, wrapper
 from optparse import OptionParser
 
 class Game:
@@ -24,22 +24,22 @@ class Game:
         return "   "+" ".join([str(i) for i in range(self.n)])+"\n"+ "\n".join([str(i)+": "+" ".join([self.board[i][j] for j in range(self.n)]) for i in range(self.m)])
     
     def up(self):
-        '''Moves the position up and marks it'''
+        '''Moves the position up and marks it. Thoughtful of bounds.'''
         self.x = self.x -1  if self.x > 0 else 0
         self.board[self.x][self.y] = 'X'
 
     def down(self):
-        '''Moves the position down and marks it'''
+        '''Moves the position down and marks it. Thoughtful of bounds'''
         self.x = self.x +1 if self.x < self.m-1 else self.m-1
         self.board[self.x][self.y] = 'X'
     
     def left(self):
-        '''Moves the position left and marks it'''
+        '''Moves the position left and marks it. Thoughtful of bounds'''
         self.y = self.y -1 if self.y > 0 else 0
         self.board[self.x][self.y] = 'X'
     
     def right(self):
-        '''Moves the position right and marks it'''
+        '''Moves the position right and marks it. Thoughtful of bounds'''
         self.y = self.y+1 if self.y < self.n -1 else self.n -1
         self.board[self.x][self.y] = 'X'
     
