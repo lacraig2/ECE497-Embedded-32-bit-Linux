@@ -1,7 +1,7 @@
-###Requirements:
+### Requirements:
 A unix system with Python 2 or 3. This only requires the curses library in python (should be default on Unix systems).
 
-###Usage:
+### Usage:
 
 This sets up an 8x8 etch a sketch game. (default)
 
