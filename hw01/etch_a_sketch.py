@@ -7,6 +7,7 @@
 
 from curses import KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT, curs_set, wrapper
 from optparse import OptionParser
+from math import log10
 
 class Game:
     def __init__(self, n, m=None):
@@ -17,12 +18,13 @@ class Game:
         self.m = m
         self.x = 0
         self.y = 0
+        self.numspaces = num_spaces(self.n)
         self.board = [[" " for j in range(n)] for i in range(m)]
 
     def __str__(self):
         '''This method returns the base string representation of the Game class.'''
-        return "   "+" ".join([str(i) for i in range(self.n)])+"\n"+ "\n".join([str(i)+": "+" ".join([self.board[i][j] for j in range(self.n)]) for i in range(self.m)])
-    
+        return "  "+" ".join([str(i).rjust(self.numspaces+1) for i in range(self.n)])+"\n"+ "\n".join([(str(i)+": ").rjust(2+self.numspaces)+(" ".rjust(self.numspaces+1)).join([self.board[i][j] for j in range(self.n)]) for i in range(self.m)])
+
     def up(self):
         '''Moves the position up and marks it. Thoughtful of bounds.'''
         self.x = self.x -1  if self.x > 0 else 0
@@ -47,6 +49,9 @@ class Game:
         '''Clears the board to default values'''
         self.board = [[" " for j in range(self.n)]for i in range(self.m)]
 
+def num_spaces(n):
+    return int(log10(n))+1
+
 def main(stdscr):
     # parse command line options
     parser = OptionParser()
@@ -59,9 +64,12 @@ def main(stdscr):
 
     # set up game with command line options
     if options.m and options.n:
-        game = Game(int(options.n),int(options.m))
+        n = int(options.n)
+        m = int(options.m)
+        game = Game(n if n < 25 else 8, m if m < 25 else 8)
     elif options.n:
-        game = Game(int(options.n))
+        n = int(options.n)
+        game = Game(n if n < 25 else 8)
     else:
         game = Game(8,8) # default
 
