@@ -14,3 +14,8 @@ A unix system with Python 2 or 3. This only requires the curses library in pytho
 - This sets up a 7x4 etch a sketch game.
 
     `python etch_a_sketch.py -n 7 -m 4`
+
+// Comment from Prof. Yoder
+// See README requirements
+// Python code looks very nice
+// Grade:  7/10
