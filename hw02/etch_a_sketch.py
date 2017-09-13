@@ -58,6 +58,7 @@ class Game:
 		self.board = [[" " for j in range(self.n)]for i in range(self.m)]
 
 def num_spaces(n):
+	'''Number of spaces required to print a number in decimal. Useful in printing out board.'''
 	return int(log10(n))+1
 
 '''
