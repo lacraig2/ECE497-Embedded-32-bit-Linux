@@ -8,27 +8,26 @@
 import Adafruit_BBIO.GPIO as GPIO
 from time import sleep
 
+# pairs in the form (OUTPUT, INPUT, STATE)
+# state takes care of which are pull up and pull down
 GPIOs = [("GP1_3","GP0_3", GPIO.HIGH), ("GP1_4","GP0_4", GPIO.LOW), ("RED", "GP0_5", GPIO.HIGH),("GREEN","GP0_6", GPIO.LOW)]
 
 def main():
 	try:
+		# set up GPIOs as appopriate
 		for i in GPIOs:
-			#print("input "+i[1])
 			GPIO.setup(i[1], GPIO.IN);
-			#print("output "+ i[0])
 			GPIO.setup(i[0], GPIO.OUT);
-		a = GPIO.LOW
+
+		# main program loop
 		while True:
-			a = GPIO.LOW if a == GPIO.HIGH else GPIO.HIGH
-			#print(GPIO.input("GP0_3"), GPIO.input("GP0_4"), GPIO.input("GP0_5"), GPIO.input("GP0_6"))
+			# set as appopriate for each GPIO
 			for i in GPIOs:
 				GPIO.output(i[0], GPIO.HIGH if GPIO.input(i[1]) != i[2] else GPIO.LOW);
-				i#print(i[1] + "is set to " + str(GPIO.input(i[1])))
-			#print("Setting all to " + str(a))
+			# sleep for 100 ms
 			sleep(0.1)
 	finally:
-		GPIO.cleanup()				
+		GPIO.cleanup()
+
 if __name__ == "__main__":
     main()
-
-
