@@ -3,7 +3,7 @@
 # By: Luke Craig
 # Dr. Yoder
 # ECE497 Embedded 32-bit Linux
-# HW02
+# HW03
 
 import Adafruit_BBIO.GPIO as GPIO
 from time import sleep

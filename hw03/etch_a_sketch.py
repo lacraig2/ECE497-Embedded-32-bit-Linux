@@ -3,7 +3,7 @@
 # By: Luke Craig
 # Dr. Yoder
 # ECE497 Embedded 32-bit Linux
-# HW02
+# HW03
 
 from curses import KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT, curs_set, wrapper
 from optparse import OptionParser

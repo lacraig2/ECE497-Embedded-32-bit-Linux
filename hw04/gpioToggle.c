@@ -66,10 +66,10 @@ int main(int argc, char *argv[]) {
 
     printf("Start blinking LED USR3\n");
     while(keepgoing) {
-        // printf("ON\n");
+        printf("ON\n");
         *gpio_setdataout_addr = USR3;
         usleep(250000);
-        // printf("OFF\n");
+        printf("OFF\n");
         *gpio_cleardataout_addr = USR3;
         usleep(250000);
     }

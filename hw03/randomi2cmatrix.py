@@ -1,6 +1,9 @@
-#!/usr/bin/env python3
-# Write an 8x8 Red/Green LED matrix
-# https://www.adafruit.com/product/902
+#!/usr/bin/python
+
+# By: Luke Craig
+# Dr. Yoder
+# ECE497 Embedded 32-bit Linux
+# HW03
 
 import smbus
 from time import sleep

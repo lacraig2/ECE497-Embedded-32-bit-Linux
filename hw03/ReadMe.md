@@ -1,21 +1,29 @@
-# Homework 2
+# Homework 3
 
 ## Requirements:
-### Buttons and LEDs:
+### TMP101:
 #### Description
-1. Wire up your breadboard to have 4 buttons.  Each is to have one terminal attached to +3.3V and the other to a GPIO port.
-2. Also wire up 4 LEDs with current limiting resistors. Tie the plus side of the LED to the GPIO port and run the minus to the resistor and to ground. 
-3. Write a simple program that reads the switches and lights a corresponding LED. Use interrupts.
-#### Work
-- For this I wired up the buttons and LEDs and wrote buttons_and_leds.py for this requirement
-### Etch-a-sketch
-#### Description
-- Next write modify your Etch-a-sketch[1] program to be controlled by the pushbuttons.  I suggest converting to Python since the I/O is easy. For now just print the grid in the terminal window.  Next week we’ll interface it to the LED grid.
-#### Work
-- I used the work I did on Buttons and LEDs as the basis of the controls for this part and modified my Etch-a-sketch from HW1 to use the push buttons. The code is stored in etch_a_sketch.py. Instructions and requirements are listed below.
+1. Wire up your two TMP101 on the i2c bus so each has a different address. Also wire the ALERT pin to a GPIO port.
+2. Use the shell commands to read the temperature of each. Write a shell file to read the temperature and convert it to Fahrenheit.  Hint:  temp=`i2cget -y 1 0x48` assigns the output of i2cget to the variable temp.  Hint 2: temp2=$(($temp *2)) multiplies temp by two.
+3. Use the i2cset command to set the temperature limits THIGH and TLOW. Test that they are working.
+4. Write a program that sets the temperature limits on each TMP101 and waits for an interrupt on the ALERT pin, then prints the temperature in F.  To keep things simple you may use a shell file to set things up.
 
 
-## Etch-a-sketch
+###Etch-a-sketch
+Modify your etch-a-sketch program to use the bicolor LED matrix in your kit.  The matrix will work off of 3.3V.
+1. Wire the matrix up to the same bus as your TMP101’s.
+2. Use the programs in exercises/displays/matrix8x8 to set the matrix before modifying your Etch-a-sketch program.
+3. Once working, interface the LED matrix to your Etch-a-sketch.
+
+
+#### Work
+### TMP101
+#### Description
+- For this I attempted to get it to read properly. THIS DOES NOT FULLY WORK. It reads, but it does not alert more than once.
+
+### Etch-A-sketch
+#### Description
+- I used an abstraction layer for the Matrix system and then added the logic to the Game class. This implemented the game properly.
 
 ### Requirements:
 A unix system with Python 2 or 3. This only requires the curses library in python (should be default on Unix systems).
