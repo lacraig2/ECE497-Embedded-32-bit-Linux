@@ -16,7 +16,7 @@ Modify your etch-a-sketch program to use the bicolor LED matrix in your kit.  Th
 3. Once working, interface the LED matrix to your Etch-a-sketch.
 
 
-#### Work
+## Work
 ### TMP101
 #### Description
 - For this I attempted to get it to read properly. THIS DOES NOT FULLY WORK. It reads, but it does not alert more than once.
