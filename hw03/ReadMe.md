@@ -9,7 +9,7 @@
 4. Write a program that sets the temperature limits on each TMP101 and waits for an interrupt on the ALERT pin, then prints the temperature in F.  To keep things simple you may use a shell file to set things up.
 
 
-###Etch-a-sketch
+### Etch-a-sketch
 Modify your etch-a-sketch program to use the bicolor LED matrix in your kit.  The matrix will work off of 3.3V.
 1. Wire the matrix up to the same bus as your TMP101’s.
 2. Use the programs in exercises/displays/matrix8x8 to set the matrix before modifying your Etch-a-sketch program.
