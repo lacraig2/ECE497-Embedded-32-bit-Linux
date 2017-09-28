@@ -63,9 +63,9 @@ int main(int argc, char *argv[]) {
     printf("Start copying GPIO_07 to GPIO_03\n");
     while(keepgoing) {
     	if(*gpio_datain & GPIO_07) {
-            *gpio_setdataout_addr= GPIO_03;
+            *gpio_setdataout_addr= USR3;
     	} else {
-            *gpio_cleardataout_addr = GPIO_03;
+            *gpio_cleardataout_addr = USR3;
     	}
         //usleep(1);
     }
