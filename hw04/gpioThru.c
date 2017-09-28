@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
                                            GPIO0_SIZE);
 
     gpio_addr = mmap(0, GPIO0_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 
-                        GPIO0_START_ADDR);
+                        GPIO1_START_ADDR);
 
     gpio_oe_addr           = gpio_addr + GPIO_OE;
     gpio_datain            = gpio_addr + GPIO_DATAIN;
@@ -62,10 +62,10 @@ int main(int argc, char *argv[]) {
 
     printf("Start copying GPIO_07 to GPIO_03\n");
     while(keepgoing) {
-    	if(*gpio_datain & GPIO_07) {
-            printf("GPIO0_07 is on\n");
+    	if(*gpio_datain & GPIO_17) {
+            printf("GPIO0_07 is on");
     	} else {
-            printf("GPIO0_07 is off\n");
+            printf("GPIO0_07 is off");
     	}
         usleep(1000);
     }
