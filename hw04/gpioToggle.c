@@ -57,6 +57,13 @@ int main(int argc, char *argv[]) {
     printf("GPIO SETDATAOUTADDR mapped to %p\n", gpio_setdataout_addr);
     printf("GPIO CLEARDATAOUT mapped to %p\n", gpio_cleardataout_addr);
 
+    // Set USR2 to be an output pin
+    reg = *gpio_oe_addr;
+    printf("GPIO1 configuration: %X\n", reg);
+    reg &= ~USR2;       // Set USR2 bit to 0
+    *gpio_oe_addr = reg;
+    printf("GPIO1 configuration: %X\n", reg);
+
     // Set USR3 to be an output pin
     reg = *gpio_oe_addr;
     printf("GPIO1 configuration: %X\n", reg);
@@ -69,7 +76,11 @@ int main(int argc, char *argv[]) {
         printf("ON\n");
         *gpio_setdataout_addr = USR3;
         usleep(250000);
+        *gpio_setdataout_addr = USR2;
+        usleep(250000);
         printf("OFF\n");
+        *gpio_cleardataout_addr = USR2;
+        usleep(250000);
         *gpio_cleardataout_addr = USR3;
         usleep(250000);
     }
