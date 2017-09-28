@@ -36,3 +36,7 @@ Use buttons attached to GPIO pins to move the cursor. Use the PAUSE button to cl
 - This sets up a 7x4 etch a sketch game.
 
     `python etch_a_sketch.py -n 7 -m 4`
+
+# Comments from Prof. Yoder
+# Looks good.  Nice Usage instructions
+# Grade:  10/10
