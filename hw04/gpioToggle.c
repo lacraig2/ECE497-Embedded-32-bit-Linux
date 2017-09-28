@@ -46,7 +46,24 @@ int main(int argc, char *argv[]) {
 
     gpio_oe_addr           = gpio_addr + GPIO_OE;
     gpio_setdataout_addr   = gpio_addr + GPIO_SETDATAOUT;
-    gpio_cleardataout_addr = gpio_addr + GPIO_CLEARDATAOUT;
+    gpio_cleardataout_addr = gpio_addr + GPIO_CLEARDATAOUT
+
+    gpio1_addr = mmap(0, GPIO0_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 
+                        GPIO0_START_ADDR);
+
+    gpio1_oe_addr           = gpio1_addr + GPIO_OE;
+    gpio1_datain            = gpio1_addr + GPIO_DATAIN;
+    gpio1_setdataout_addr   = gpio1_addr + GPIO_SETDATAOUT;
+    gpio1_cleardataout_addr = gpio1_addr + GPIO_CLEARDATAOUT;
+
+
+    gpio3_addr = mmap(0, GPIO0_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 
+                        GPIO0_START_ADDR);
+
+    gpio3_oe_addr           = gpio3_addr + GPIO_OE;
+    gpio3_datain            = gpio3_addr + GPIO_DATAIN;
+    gpio3_setdataout_addr   = gpio3_addr + GPIO_SETDATAOUT;
+    gpio3_cleardataout_addr = gpio3_addr + GPIO_CLEARDATAOUT;
 
     if(gpio_addr == MAP_FAILED) {
         printf("Unable to map GPIO\n");
@@ -73,19 +90,25 @@ int main(int argc, char *argv[]) {
 
     printf("Start blinking LED USR3\n");
     while(keepgoing) {
-        printf("ON\n");
-        *gpio_setdataout_addr = USR2;
-        usleep(1000);
-        *gpio_setdataout_addr = USR3;
-        usleep(250000);
-        printf("OFF\n");
-        *gpio_cleardataout_addr = USR2;
-        usleep(1000);
-        *gpio_cleardataout_addr = USR3;
+        if(*gpio3_datain & GPIO_17) {
+            *gpio_setdataout_addr = USR2;
+            usleep(100);
+        } else {
+            *gpio_cleardataout_addr = USR2;
+            usleep(100)
+        }
+        if (*gpio1_datain & GPIO_17){
+            *gpio_setdataout_addr = USR3;
+            usleep(100);
+        }else{
+            *gpio_cleardataout_addr = USR3;
+            usleep(100)
+        }
         usleep(250000);
     }
 
     munmap((void *)gpio_addr, GPIO1_SIZE);
+    munmap((void *)gpio3_addr, GPIO0_SIZE);
     close(fd);
     return 0;
 }
