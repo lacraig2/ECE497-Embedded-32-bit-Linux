@@ -12,6 +12,7 @@
 #include <signal.h>    // Defines signal-handling functions (i.e. trap Ctrl-C)
 #include "beaglebone_gpio.h"
 
+#define GPIO_17  (1<<17)
 /****************************************************************
  * Global variables
  ****************************************************************/
