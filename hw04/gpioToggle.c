@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 
     gpio_oe_addr           = gpio_addr + GPIO_OE;
     gpio_setdataout_addr   = gpio_addr + GPIO_SETDATAOUT;
-    gpio_cleardataout_addr = gpio_addr + GPIO_CLEARDATAOUT
+    gpio_cleardataout_addr = gpio_addr + GPIO_CLEARDATAOUT;
 
     gpio1_addr = mmap(0, GPIO0_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 
                         GPIO0_START_ADDR);
