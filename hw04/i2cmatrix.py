@@ -181,13 +181,13 @@ Simple method to update the curses screen.
 	# curs_set(0) # this just prevents a blinking cursor
 
 def main():
-	rcpy.set_state(rcpy.RUNNING)
 	# parse command line options
 	parser = OptionParser()
 	parser.add_option("-n", dest="n", help="n size argument to game")
 	parser.add_option("-m", dest="m", help="m size argument to game")
 	options,args = parser.parse_args()
 
+	rcpy.set_state(rcpy.RUNNING)
 	bus = smbus.SMBus(1)  # Use i2c bus 1
 	matrixAddr = 0x70         # Use address 0x70
 
@@ -220,17 +220,17 @@ def main():
 	try:
 		while True:
 			if rcpy.get_state() == rcpy.RUNNING:
-            	a = encoder.get(2)
-            	b = encoder.get(3) # read the encoders
-            	if a > e2:
-            		game.up()
-            	elif a < e2:
-            		game.down()
-            	if b>e3:
-            		game.left()
-            	elif b < e3:
-            		game.right()
-            	e2,e3=a,b
+				a = encoder.get(2)
+				b = encoder.get(3) # read the encoders
+				if a > e2:
+					game.up()
+				elif a < e2:
+					game.down()
+				if b>e3:
+					game.left()
+				elif b < e3:
+					game.right()
+				e2,e3=a,b
 			sleep(0.1)
 	finally:
 		GPIO.cleanup()
