@@ -181,6 +181,7 @@ Simple method to update the curses screen.
 	# curs_set(0) # this just prevents a blinking cursor
 
 def main():
+	rcpy.set_state(rcpy.RUNNING)
 	# parse command line options
 	parser = OptionParser()
 	parser.add_option("-n", dest="n", help="n size argument to game")
@@ -214,8 +215,21 @@ def main():
 	# update_screen()  
 
 	# sleep  
+	e2 = 0
+	e3 = 0
 	try:
 		while True:
+			if rcpy.get_state() == rcpy.RUNNING:
+            	a,b = encoder.get(2), encoder.get(3) # read the encoders
+            	if a > e2:
+            		game.up()
+            	elif a < e2:
+            		game.down()
+            	if b>e3:
+            		game.left()
+            	elif b < e3:
+            		game.right()
+            	e2,e3=a,b
 			sleep(0.1)
 	finally:
 		GPIO.cleanup()
