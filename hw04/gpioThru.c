@@ -63,9 +63,9 @@ int main(int argc, char *argv[]) {
     printf("Start copying GPIO_07 to GPIO_03\n");
     while(keepgoing) {
     	if(*gpio_datain & GPIO_07) {
-            printf("GPIO0_07 is on");
+            printf("GPIO0_07 is on\n");
     	} else {
-            printf("GPIO0_07 is off");
+            printf("GPIO0_07 is off\n");
     	}
         usleep(1000);
     }
