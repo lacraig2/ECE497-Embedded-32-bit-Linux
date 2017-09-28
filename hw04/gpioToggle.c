@@ -91,16 +91,20 @@ int main(int argc, char *argv[]) {
     printf("Start blinking LED USR3\n");
     while(keepgoing) {
         if(*gpio3_datain & GPIO_17) {
+            printf("GPIO3_17 on");
             *gpio_setdataout_addr = USR2;
             usleep(100);
         } else {
+            printf("GPIO3_17 off");
             *gpio_cleardataout_addr = USR2;
             usleep(100)
         }
         if (*gpio1_datain & GPIO_17){
+            printf("GPIO1_17 on");
             *gpio_setdataout_addr = USR3;
             usleep(100);
         }else{
+            printf("GPIO1_17 off");
             *gpio_cleardataout_addr = USR3;
             usleep(100)
         }
