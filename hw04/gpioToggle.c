@@ -107,7 +107,7 @@ int main(int argc, char *argv[]) {
         } else {
             printf("GPIO3_17 off");
             *gpio_cleardataout_addr = USR2;
-            usleep(100)
+            usleep(100);
         }
         if (*gpio1_datain & GPIO_17){
             printf("GPIO1_17 on");
@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
         }else{
             printf("GPIO1_17 off");
             *gpio_cleardataout_addr = USR3;
-            usleep(100)
+            usleep(100);
         }
         usleep(250000);
     }
