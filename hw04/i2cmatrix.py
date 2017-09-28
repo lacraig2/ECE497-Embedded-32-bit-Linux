@@ -14,7 +14,8 @@ from math import log10
 import Adafruit_BBIO.GPIO as GPIO
 from time import sleep
 from sys import exit
-
+import rcpy 
+import rcpy.encoder as encoder
 
 GPIOs = {"GP0_3": GPIO.RISING, "GP0_4": GPIO.FALLING, "GP0_5": GPIO.RISING,"GP0_6": GPIO.FALLING}
 game = None
