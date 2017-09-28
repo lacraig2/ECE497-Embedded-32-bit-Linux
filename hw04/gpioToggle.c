@@ -113,11 +113,11 @@ int main(int argc, char *argv[]) {
         }
         if(*gpio1_datain & GPIO_17) {
             printf("GPIO3_17 on\n");
-            *gpio_setdataout_addr = USR2;
+            *gpio_setdataout_addr = USR3;
             usleep(100);
         } else {
             printf("GPIO3_17 off\n");
-            *gpio_cleardataout_addr = USR2;
+            *gpio_cleardataout_addr = USR3;
             usleep(100);
         }
         usleep(10000);
