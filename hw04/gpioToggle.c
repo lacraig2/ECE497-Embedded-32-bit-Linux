@@ -37,18 +37,12 @@ int main(int argc, char *argv[]) {
     volatile unsigned int *gpio1_oe_addr;
     volatile unsigned int *gpio1_setdataout_addr;
     volatile unsigned int *gpio1_cleardataout_addr;
+    volatile unsigned int *gpio1_datain;
     volatile void *gpio3_addr;
     volatile unsigned int *gpio3_oe_addr;
     volatile unsigned int *gpio3_setdataout_addr;
     volatile unsigned int *gpio3_cleardataout_addr;
-    volatile unsigned int *gpio1_oe_addr;
-    volatile unsigned int *gpio1_datain;
-    volatile unsigned int *gpio1_setdataout_addr;
-    volatile unsigned int *gpio1_cleardataout_addr;
-    volatile unsigned int *gpio3_oe_addr;
     volatile unsigned int *gpio3_datain;
-    volatile unsigned int *gpio3_setdataout_addr;
-    volatile unsigned int *gpio3_cleardataout_addr;
     unsigned int reg;
     
     // Set the signal callback for Ctrl-C
