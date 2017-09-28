@@ -88,35 +88,26 @@ int main(int argc, char *argv[]) {
 
     // Set USR2 to be an output pin
     reg = *gpio_oe_addr;
-    printf("GPIO1 configuration: %X\n", reg);
     reg &= ~USR2;       // Set USR2 bit to 0
     *gpio_oe_addr = reg;
-    printf("GPIO1 configuration: %X\n", reg);
-
     // Set USR3 to be an output pin
     reg = *gpio_oe_addr;
-    printf("GPIO1 configuration: %X\n", reg);
     reg &= ~USR3;       // Set USR3 bit to 0
     *gpio_oe_addr = reg;
-    printf("GPIO1 configuration: %X\n", reg);
 
     printf("Start blinking LED USR3\n");
     while(keepgoing) {
         if(*gpio3_datain & GPIO_17) {
-            printf("GPIO3_17 on\n");
             *gpio_setdataout_addr = USR2;
             usleep(100);
         } else {
-            printf("GPIO3_17 off\n");
             *gpio_cleardataout_addr = USR2;
             usleep(100);
         }
         if(*gpio1_datain & GPIO_17) {
-            printf("GPIO3_17 on\n");
             *gpio_setdataout_addr = USR3;
             usleep(100);
         } else {
-            printf("GPIO3_17 off\n");
             *gpio_cleardataout_addr = USR3;
             usleep(100);
         }
