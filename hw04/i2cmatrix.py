@@ -220,7 +220,8 @@ def main():
 	try:
 		while True:
 			if rcpy.get_state() == rcpy.RUNNING:
-            	a,b = encoder.get(2), encoder.get(3) # read the encoders
+            	a = encoder.get(2)
+            	b = encoder.get(3) # read the encoders
             	if a > e2:
             		game.up()
             	elif a < e2:
