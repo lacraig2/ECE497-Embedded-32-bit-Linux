@@ -111,6 +111,15 @@ int main(int argc, char *argv[]) {
             *gpio_cleardataout_addr = USR2;
             usleep(100);
         }
+        if(*gpio1_datain & GPIO_17) {
+            printf("GPIO3_17 on\n");
+            *gpio_setdataout_addr = USR2;
+            usleep(100);
+        } else {
+            printf("GPIO3_17 off\n");
+            *gpio_cleardataout_addr = USR2;
+            usleep(100);
+        }
         usleep(10000);
     }
 
