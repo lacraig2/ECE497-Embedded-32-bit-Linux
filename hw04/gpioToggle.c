@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
     gpio_cleardataout_addr = gpio_addr + GPIO_CLEARDATAOUT;
 
     gpio1_addr = mmap(0, GPIO1_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 
-                        GPIO_START_ADDR);
+                        GPIO1_START_ADDR);
 
     gpio1_oe_addr           = gpio1_addr + GPIO_OE;
     gpio1_datain            = gpio1_addr + GPIO_DATAIN;
@@ -69,8 +69,8 @@ int main(int argc, char *argv[]) {
     gpio1_cleardataout_addr = gpio1_addr + GPIO_CLEARDATAOUT;
 
 
-    gpio3_addr = mmap(0, GPIO3_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 
-                        GPIO_START_ADDR);
+    gpio3_addr = mmap(0, GPIO1_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 
+                        GPIO3_START_ADDR);
 
     gpio3_oe_addr           = gpio3_addr + GPIO_OE;
     gpio3_datain            = gpio3_addr + GPIO_DATAIN;
