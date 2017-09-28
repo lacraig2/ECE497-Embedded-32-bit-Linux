@@ -102,24 +102,24 @@ int main(int argc, char *argv[]) {
     printf("Start blinking LED USR3\n");
     while(keepgoing) {
         if(*gpio3_datain & GPIO_17) {
-            printf("GPIO3_17 on");
+            printf("GPIO3_17 on\n");
             *gpio_setdataout_addr = USR2;
             usleep(100);
         } else {
-            printf("GPIO3_17 off");
+            printf("GPIO3_17 off\n");
             *gpio_cleardataout_addr = USR2;
             usleep(100);
         }
         if (*gpio1_datain & GPIO_17){
-            printf("GPIO1_17 on");
+            printf("GPIO1_17 on\n");
             *gpio_setdataout_addr = USR3;
             usleep(100);
         }else{
-            printf("GPIO1_17 off");
+            printf("GPIO1_17 off\n");
             *gpio_cleardataout_addr = USR3;
             usleep(100);
         }
-        usleep(250000);
+        usleep(10000);
     }
 
     munmap((void *)gpio_addr, GPIO1_SIZE);
