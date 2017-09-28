@@ -232,6 +232,7 @@ def main():
 				elif b < e3:
 					game.right()
 				e2,e3=a,b
+				print(a,b)
 			sleep(0.1)
 	finally:
 		GPIO.cleanup()
