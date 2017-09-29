@@ -4,5 +4,3 @@ USER=debian
 ./setDNS.sh $BONE
 ./ipMasquerade.sh enp1s0f0
 ./ipMasquerade.sh wlp2s0
-
-
