@@ -19,11 +19,11 @@ Modify your etch-a-sketch program to use the bicolor LED matrix in your kit.  Th
 ## Work
 ### TMP101
 #### Description
-- For this I attempted to get it to read properly. THIS DOES NOT FULLY WORK. It reads, but it does not alert more than once.
+- For this I attempted to get it to read properly. THIS DOES NOT FULLY WORK. It reads, but it does not alert more than once. I implemented this in the file [tmp101.py](tmp101.py).
 
 ### Etch-A-sketch
 #### Description
-- I used an abstraction layer for the Matrix system and then added the logic to the Game class. This implemented the game properly.
+- I used an abstraction layer for the Matrix system and then added the logic to the Game class. This implemented the game properly in the file [i2cmatrix.py](i2cmatrix.py). I also created the file [randomi2cmatrix.py](randomi2cmatrix.py) mostly for fun. It looks cool.
 
 ### Requirements:
 A unix system with Python 2 or 3. This only requires the curses library in python (should be default on Unix systems).
