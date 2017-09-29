@@ -158,18 +158,18 @@ I use stdscr as a global because instead of using a while loop to update every 1
 only calls update_screen when it needs to (on events). I think this is a better approach on th whole.
 '''
 
-def update_game(channel):
-	if channel == "GP0_3":
-		game.up()
-	elif channel == "GP0_4":
-		game.left()
-	elif channel == "GP0_5":
-		game.down()
-	elif channel == "GP0_6":
-		game.right()
-	elif channel == "PAUSE":
-		game.clear()
-	# update_screen()
+#def update_game(channel):
+#	if channel == "GP0_3":
+#		game.up()
+#	elif channel == "GP0_4":
+#		game.left()
+#	elif channel == "GP0_5":
+#		game.down()
+#	elif channel == "GP0_6":
+#		game.right()
+#	elif channel == "PAUSE":
+#		game.clear()
+#	update_screen()
 
 '''
 Simple method to update the curses screen.
@@ -205,13 +205,13 @@ def main():
 		game = Game(8,m = 8, address = matrixAddr, bus = bus) # default
 
 	# set up PAUSE pin for clear functionality
-	GPIO.setup("PAUSE", GPIO.IN)
-	GPIO.add_event_detect("PAUSE", GPIO.BOTH, callback=update_game)
+	#GPIO.setup("PAUSE", GPIO.IN)
+	#GPIO.add_event_detect("PAUSE", GPIO.BOTH, callback=update_game)
 
 	# set up input pins
-	for i in GPIOs:
-		GPIO.setup(i, GPIO.IN)
-		GPIO.add_event_detect(i, GPIOs[i],callback=update_game)
+	#for i in GPIOs:
+	#	GPIO.setup(i, GPIO.IN)
+	#	GPIO.add_event_detect(i, GPIOs[i],callback=update_game)
 
 	# update_screen()  
 
@@ -223,16 +223,23 @@ def main():
 			if rcpy.get_state() == rcpy.RUNNING:
 				a = encoder.get(2)
 				b = encoder.get(3) # read the encoders
+				# move up or down from the encoder a value
 				if a > e2:
 					game.up()
+					#print("game up")
 				elif a < e2:
 					game.down()
+					#print("game down")
+				# move left or right from the encoder b value
 				if b>e3:
 					game.left()
+					#print("game left")
 				elif b < e3:
 					game.right()
+					#print("game right")
+				#print(e2,e3,a,b)
 				e2,e3=a,b
-				print(a,b)
+				
 			sleep(0.1)
 	finally:
 		GPIO.cleanup()
