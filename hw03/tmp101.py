@@ -1,37 +1,40 @@
-#!/usr/bin/env python3
-# Read a TMP101 sensor
+#!/usr/bin/python
+
+# By: Luke Craig
+# Dr. Yoder
+# ECE497 Embedded 32-bit Linux
+# HW04
+
 
 import smbus
 from time import sleep
 import Adafruit_BBIO.GPIO as GPIO
 
 
-bus = smbus.SMBus(1)
-address = 0x48
+bus = smbus.SMBus(1) 					# set up the smbus
+
+address = 0x48							# addresses for two i2c temp sensors
 address2 = 0x4A
-bus.write_byte_data(address,1,0x6)
-bus.write_byte_data(address,2,22)
-bus.write_byte_data(address,3,27)
-bus.write_byte_data(address2,1,0x6)
-bus.write_byte_data(address2,2,22)
-bus.write_byte_data(address2,3,27)
-GPIO.setup("GP0_3", GPIO.IN)
-GPIO.setup("GP0_4", GPIO.IN)
 
-def print_temp(channel):
+bus.write_byte_data(address,1,0x6)		# set up the configuration register for i2c temp sensor
+bus.write_byte_data(address,2,22)		# set up T_low for i2c temp sensor
+bus.write_byte_data(address,3,27)		# set up T_high for i2c temp sensor
+bus.write_byte_data(address2,1,0x6)		# set up the configuration register for i2c temp sensor
+bus.write_byte_data(address2,2,22)		# set up T_low for i2c temp sensor
+bus.write_byte_data(address2,3,27)		# set up T_high for i2c temp sensor
+
+GPIO.setup("GP0_3", GPIO.IN)			# set up pin to listen for ALERT pin
+GPIO.setup("GP0_4", GPIO.IN)			# set up pin to listen for ALERT pin
+
+def print_temp(channel):				# set up callback method
 	print("ALERT")
-	bus.write_byte_data(address,1,0x6)
-	bus.write_byte_data(address2,1,0x6)
-	# temp = bus.read_byte_data(address, 0)
-	# temp2 = bus.read_byte_data(address2, 0)
-	# print(str(temp)+ " "+str(temp2))
 
+
+#attach callbacks to two pins
 GPIO.add_event_detect("GP0_3", GPIO.BOTH, callback=print_temp)
 GPIO.add_event_detect("GP0_4", GPIO.BOTH, callback=print_temp)
+
+# loop over and wait
 while True:
-	temp = bus.read_byte_data(address, 0)
-	temp2 = bus.read_byte_data(address2, 0)
-	print(str(temp)+ " "+str(temp2))
-	print(str(hex(bus.read_byte_data(address,1)))+" "+str(hex(bus.read_byte_data(address2,1))))
 	sleep(0.5)
-GPIO.cleanup()
+GPIO.cleanup()							# no reason to be leaving a mess
