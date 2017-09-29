@@ -26,7 +26,7 @@ Modify your Etch-a-Sketch to use two rotary encoders. exerciese/sensors/eQEP has
 - For this I modified gpioThru.c and gpioToggle.c from the examples and created [gpioViaMmap.c](gpioViaMmap.c).
 
 ### Rotary Encoders
-- For this I really just added some simple logic to the encoders to update values based on the direction the rotary encoders moved. I couldn't get it to work with the pushbuttons since the pushbuttons work only for me in Python 2 and the rcpy library supports only Python 3. ¯\_(ツ)_/¯
+- For this I really just added some simple logic to the encoders to update values based on the direction the rotary encoders moved. This was implemented in [i2cmatrix.py](i2cmatrix.py). I couldn't get it to work with the pushbuttons since the pushbuttons work only for me in Python 2 and the rcpy library supports only Python 3. ¯\\_(ツ)_/¯
 
 
 ### Requirements:
