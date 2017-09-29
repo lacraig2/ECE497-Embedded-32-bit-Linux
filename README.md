@@ -16,3 +16,6 @@
 
 ### [Homework 4](hw04)
 - Completed though I was still having some issues with buttons and Python 2/3 compatibility in the [i2cmatrix.py](hw04/i2cmatrix.py).
+
+### [Homework 5](hw05)
+- Lol no.
