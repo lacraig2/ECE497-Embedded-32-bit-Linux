@@ -40,7 +40,7 @@ function LEDclick(i, j) {
         $('#id' + i + '_' + j).addClass('green');
         $('#id'+i+'_'+j).removeClass('red')
         $('#id'+i+'_'+j).removeClass('yellow')
-    } else if ((disp[i] >> j) === 2) {
+    } else if ((disp[i] >> j) & 0x3=== 2) {
         $('#id' + i + '_' + j).addClass('red');
         $('#id'+i+'_'+j).removeClass('green')
         $('#id'+i+'_'+j).removeClass('yellow')
@@ -117,7 +117,7 @@ function LEDclick(i, j) {
             // j cycles through each bit
             for (j = 0; j < 8; j++) {
                 var l = disp[i] >> j;
-                if (l === 3){
+                if ((l& 0x3) === 3){
                     $('#id'+i+'_'+j).addClass('yellow')
                     $('#id'+i+'_'+j).removeClass('red')
                     $('#id'+i+'_'+j).removeClass('green')
@@ -125,7 +125,7 @@ function LEDclick(i, j) {
                     $('#id' + i + '_' + j).addClass('green');
                     $('#id'+i+'_'+j).removeClass('red')
                     $('#id'+i+'_'+j).removeClass('yellow')
-                } else if ((disp[i] >> j) === 2) {
+                } else if ((disp[i] >> j) & 0x3 === 2) {
                     $('#id' + i + '_' + j).addClass('red');
                     $('#id'+i+'_'+j).removeClass('green')
                     $('#id'+i+'_'+j).removeClass('yellow')
