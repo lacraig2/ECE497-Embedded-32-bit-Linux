@@ -2,6 +2,8 @@
     var firstconnect = true,
         i2cNum  = "0x70",
 	disp = [];
+    colors = [];
+
 
 // Create a matrix of LEDs inside the <table> tags.
 var matrixData;
@@ -108,14 +110,16 @@ function LEDclick(i, j) {
         // Every other pair of digits are Green. The others are red.
         // Ignore the red.
         // Convert from hex.
-        for (i = 0; i < data.length; i += 2) {
-            disp[i] = parseInt(data[i], 16);
+        for (i = 0; i < data.length; i++) {
+            disp[i] = parseInt(data[i][j], 16);
         }
         //        status_update("disp: " + disp);
         // i cycles through each column
         for (i = 0; i < disp.length; i++) {
             // j cycles through each bit
-            for (j = 0; j < 16; j+=2) {
+            for (j = 0; j < 8; j++) {
+                colors[i][j] = (disp[i] >> j) & 0x3;
+                console.log(colors[i][j])
                 var l = disp[i] >> j;
                 if ((l& 0x3) === 3){
                     $('#id'+i+'_'+j).addClass('yellow')
