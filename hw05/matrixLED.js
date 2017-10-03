@@ -27,6 +27,7 @@ function LEDclick(i, j) {
 	// alert(i+","+j+" clicked");
 
     disp[i] ^= 0x1<<j;
+    console.log("DISPLAY I", disp[i])
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
 			     disp: '0x'+disp[i].toString(16)});
 //	socket.emit('i2c', i2cNum);
@@ -95,20 +96,32 @@ function LEDclick(i, j) {
         // Ignore the red.
         // Convert from hex.
         for (i = 0; i < data.length; i += 2) {
-            disp[i / 2] = parseInt(data[i], 16);
+            disp_green[i/2] = parseInt(data[i], 16);
+        }
+
+        for (i = 0; i < data.length; i += 2) {
+            disp_red[i/2] = parseInt(data[i+1], 16);
         }
         //        status_update("disp: " + disp);
         // i cycles through each column
-        for (i = 0; i < disp.length; i++) {
+        for (i = 0; i < disp_red.length; i++) {
             // j cycles through each bit
             for (j = 0; j < 8; j++) {
-                if (((disp[i] >> j) & 0x1) === 1) {
-                    $('#id' + i + '_' + j).addClass('on');
-                } else {
-                    $('#id' + i + '_' + j).removeClass('on');
+                if (((disp_red[i] >> j) & 0x1) === 1) {
+                    disp2[i][j] += 2;
                 }
             }
         }
+
+        for (i = 0; i < disp_green.length; i++) {
+            // j cycles through each bit
+            for (j = 0; j < 8; j++) {
+                if (((disp_green[i] >> j) & 0x1) === 1) {
+                    disp2[i][j]+=1;
+                }
+            }
+        }
+        update();
     }
 
     function update(){
