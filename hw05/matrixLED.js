@@ -17,7 +17,7 @@ for(var j=7; j>=0; j--) {
 $('#matrixLED').append(matrixData);
 
 // The slider controls the overall brightness
-$("#slider1").slider({min:0, max:15, slide: function(event, ui) {
+$("#slider1").slider({min:0, max:15, slide:  function(event, ui) {
 	socket.emit("i2cset",  {i2cNum: i2cNum, i: ui.value+0xe0, disp: 1});
     }});
 
@@ -25,14 +25,30 @@ $("#slider1").slider({min:0, max:15, slide: function(event, ui) {
 function LEDclick(i, j) {
 //	alert(i+","+j+" clicked");
     disp[i] ^= 0x1<<j;
-    socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
+    var l = disp[i] >> j;
+    var j = (l+1)%4
+    socket.emit('i2cset', {i2cNum: i2cNum, i: j, 
 			     disp: '0x'+disp[i].toString(16)});
 //	socket.emit('i2c', i2cNum);
     // Toggle bit on display
-    if(disp[i]>>j&0x1 === 1) {
-        $('#id'+i+'_'+j).addClass('on');
+
+    
+    if (l === 3){
+        $('#id'+i+'_'+j).addClass('yellow')
+        $('#id'+i+'_'+j).removeClass('red')
+        $('#id'+i+'_'+j).removeClass('green')
+    }else if (((disp[i] >> j) & 0x1) === 1) {
+        $('#id' + i + '_' + j).addClass('green');
+        $('#id'+i+'_'+j).removeClass('red')
+        $('#id'+i+'_'+j).removeClass('yellow')
+    } else if ((disp[i] >> j) === 2) {
+        $('#id' + i + '_' + j).addClass('red');
+        $('#id'+i+'_'+j).removeClass('green')
+        $('#id'+i+'_'+j).removeClass('yellow')
     } else {
-        $('#id'+i+'_'+j).removeClass('on');
+        $('#id' + i + '_' + j).removeClass('green');
+        $('#id'+i+'_'+j).removeClass('red')
+        $('#id'+i+'_'+j).removeClass('yellow')
     }
 }
 
@@ -99,10 +115,23 @@ function LEDclick(i, j) {
         for (i = 0; i < disp.length; i++) {
             // j cycles through each bit
             for (j = 0; j < 8; j++) {
-                if (((disp[i] >> j) & 0x1) === 1) {
-                    $('#id' + i + '_' + j).addClass('on');
+                var l = disp[i] >> j;
+                if (l === 3){
+                    $('#id'+i+'_'+j).addClass('yellow')
+                    $('#id'+i+'_'+j).removeClass('red')
+                    $('#id'+i+'_'+j).removeClass('green')
+                }else if (((disp[i] >> j) & 0x1) === 1) {
+                    $('#id' + i + '_' + j).addClass('green');
+                    $('#id'+i+'_'+j).removeClass('red')
+                    $('#id'+i+'_'+j).removeClass('yellow')
+                } else if ((disp[i] >> j) === 2) {
+                    $('#id' + i + '_' + j).addClass('red');
+                    $('#id'+i+'_'+j).removeClass('green')
+                    $('#id'+i+'_'+j).removeClass('yellow')
                 } else {
-                    $('#id' + i + '_' + j).removeClass('on');
+                    $('#id' + i + '_' + j).removeClass('green');
+                    $('#id'+i+'_'+j).removeClass('red')
+                    $('#id'+i+'_'+j).removeClass('green')
                 }
             }
         }

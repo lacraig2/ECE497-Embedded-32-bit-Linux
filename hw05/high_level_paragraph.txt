@@ -1,0 +1,2 @@
+The systems work by a system of callbacks on events. These events are sent throught the client-side javascript to the server side javascript. Some of these events are startup, click, and shutdown.
+The matrix function returns a string of the return from the i2cdump.
