@@ -86,7 +86,8 @@ function LEDclick(i, j) {
     // data is a string of 16 values, each a pair of hex digits.
     function matrix(data) {
         var i, j;
-        disp = [];
+        var disp_green = [];
+        var disp_red = []
         //        status_update("i2c: " + data);
         // Make data an array, each entry is a pair of digits
         data = data.split(" ");
