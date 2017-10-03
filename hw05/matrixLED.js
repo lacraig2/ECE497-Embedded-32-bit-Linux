@@ -2,6 +2,7 @@
     var firstconnect = true,
         i2cNum  = "0x70",
 	disp = [];
+    disp2 = [];
 
 // Create a matrix of LEDs inside the <table> tags.
 var matrixData;
@@ -23,7 +24,7 @@ $("#slider1").slider({min:0, max:15, slide: function(event, ui) {
 
 // Send one column when LED is clicked.
 function LEDclick(i, j) {
-	alert(i+","+j+" clicked");
+	// alert(i+","+j+" clicked");
 
     disp[i] ^= 0x1<<j;
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
@@ -88,6 +89,7 @@ function LEDclick(i, j) {
         //        status_update("i2c: " + data);
         // Make data an array, each entry is a pair of digits
         data = data.split(" ");
+        console.log(data);
         //        status_update("data: " + data);
         // Every other pair of digits are Green. The others are red.
         // Ignore the red.
@@ -107,6 +109,32 @@ function LEDclick(i, j) {
                 }
             }
         }
+    }
+
+    function update(){
+        var i, j;
+        for (i=0; i< 8; i++){
+            for (j=0; j<8; j++){
+                if (disp2[i][j] == 3){
+                    $('#id' + i + '_' + j).addClass('yellow');
+                    $('#id' + i + '_' + j).removeClass('red');
+                    $('#id' + i + '_' + j).removeClass('green');
+                }else if (disp2[i][j] == 2){
+                    $('#id' + i + '_' + j).addClass('red');
+                    $('#id' + i + '_' + j).removeClass('yellow');
+                    $('#id' + i + '_' + j).removeClass('green');
+                }else if (disp2[i][j] == 1){
+                    $('#id' + i + '_' + j).addClass('green');
+                    $('#id' + i + '_' + j).removeClass('red');
+                    $('#id' + i + '_' + j).removeClass('yellow');
+                }else{
+                    $('#id' + i + '_' + j).removeClass('yellow');
+                    $('#id' + i + '_' + j).removeClass('red');
+                    $('#id' + i + '_' + j).removeClass('green');
+                }
+            }
+        }
+
     }
 
     function status_update(txt){
