@@ -25,9 +25,8 @@ $("#slider1").slider({min:0, max:15, slide:  function(event, ui) {
 function LEDclick(i, j) {
 //	alert(i+","+j+" clicked");
     disp[i] ^= 0x1<<j;
-    var l = disp[i] >> j;
-    var j = (l+1)%4
-    socket.emit('i2cset', {i2cNum: i2cNum, i: j, 
+    var l = (disp[i] >> j) & 0x3;
+    socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
 			     disp: '0x'+disp[i].toString(16)});
 //	socket.emit('i2c', i2cNum);
     // Toggle bit on display
@@ -45,10 +44,12 @@ function LEDclick(i, j) {
         $('#id' + i + '_' + j).addClass('red');
         $('#id'+i+'_'+j).removeClass('green')
         $('#id'+i+'_'+j).removeClass('yellow')
-    } else {
+    } else if (l == 0){
         $('#id' + i + '_' + j).removeClass('green');
         $('#id'+i+'_'+j).removeClass('red')
         $('#id'+i+'_'+j).removeClass('yellow')
+    }else{
+        console.log("you done messed up a-aron")
     }
 }
 
