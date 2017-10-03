@@ -109,13 +109,13 @@ function LEDclick(i, j) {
         // Ignore the red.
         // Convert from hex.
         for (i = 0; i < data.length; i += 2) {
-            disp[i / 2] = parseInt(data[i], 16);
+            disp[i] = parseInt(data[i], 16);
         }
         //        status_update("disp: " + disp);
         // i cycles through each column
         for (i = 0; i < disp.length; i++) {
             // j cycles through each bit
-            for (j = 0; j < 8; j++) {
+            for (j = 0; j < 16; j+=2) {
                 var l = disp[i] >> j;
                 if ((l& 0x3) === 3){
                     $('#id'+i+'_'+j).addClass('yellow')
