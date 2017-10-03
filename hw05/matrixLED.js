@@ -2,8 +2,6 @@
     var firstconnect = true,
         i2cNum  = "0x70",
 	disp = [];
-    colors = [];
-
 
 // Create a matrix of LEDs inside the <table> tags.
 var matrixData;
@@ -19,39 +17,23 @@ for(var j=7; j>=0; j--) {
 $('#matrixLED').append(matrixData);
 
 // The slider controls the overall brightness
-$("#slider1").slider({min:0, max:15, slide:  function(event, ui) {
+$("#slider1").slider({min:0, max:15, slide: function(event, ui) {
 	socket.emit("i2cset",  {i2cNum: i2cNum, i: ui.value+0xe0, disp: 1});
     }});
 
 // Send one column when LED is clicked.
 function LEDclick(i, j) {
-//	alert(i+","+j+" clicked");
+	alert(i+","+j+" clicked");
+
     disp[i] ^= 0x1<<j;
-    var l = (disp[i] >> j) & 0x3;
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
 			     disp: '0x'+disp[i].toString(16)});
 //	socket.emit('i2c', i2cNum);
     // Toggle bit on display
-
-    
-    if (l === 3){
-        $('#id'+i+'_'+j).addClass('yellow')
-        $('#id'+i+'_'+j).removeClass('red')
-        $('#id'+i+'_'+j).removeClass('green')
-    }else if (((disp[i] >> j) & 0x1) === 1) {
-        $('#id' + i + '_' + j).addClass('green');
-        $('#id'+i+'_'+j).removeClass('red')
-        $('#id'+i+'_'+j).removeClass('yellow')
-    } else if ((disp[i] >> j) & 0x3=== 2) {
-        $('#id' + i + '_' + j).addClass('red');
-        $('#id'+i+'_'+j).removeClass('green')
-        $('#id'+i+'_'+j).removeClass('yellow')
-    } else if (l == 0){
-        $('#id' + i + '_' + j).removeClass('green');
-        $('#id'+i+'_'+j).removeClass('red')
-        $('#id'+i+'_'+j).removeClass('yellow')
-    }else{
-        console.log("you done messed up a-aron")
+    if(disp[i]>>j&0x1 === 1) {
+        $('#id'+i+'_'+j).addClass('green');
+    } else {
+        $('#id'+i+'_'+j).removeClass('green');
     }
 }
 
@@ -110,33 +92,18 @@ function LEDclick(i, j) {
         // Every other pair of digits are Green. The others are red.
         // Ignore the red.
         // Convert from hex.
-        for (i = 0; i < data.length; i++) {
-            disp[i] = parseInt(data[i][j], 16);
+        for (i = 0; i < data.length; i += 2) {
+            disp[i / 2] = parseInt(data[i], 16);
         }
         //        status_update("disp: " + disp);
         // i cycles through each column
         for (i = 0; i < disp.length; i++) {
             // j cycles through each bit
             for (j = 0; j < 8; j++) {
-                colors[i][j] = (disp[i] >> j) & 0x3;
-                console.log(colors[i][j])
-                var l = disp[i] >> j;
-                if ((l& 0x3) === 3){
-                    $('#id'+i+'_'+j).addClass('yellow')
-                    $('#id'+i+'_'+j).removeClass('red')
-                    $('#id'+i+'_'+j).removeClass('green')
-                }else if (((disp[i] >> j) & 0x1) === 1) {
-                    $('#id' + i + '_' + j).addClass('green');
-                    $('#id'+i+'_'+j).removeClass('red')
-                    $('#id'+i+'_'+j).removeClass('yellow')
-                } else if ((disp[i] >> j) & 0x3 === 2) {
-                    $('#id' + i + '_' + j).addClass('red');
-                    $('#id'+i+'_'+j).removeClass('green')
-                    $('#id'+i+'_'+j).removeClass('yellow')
+                if (((disp[i] >> j) & 0x1) === 1) {
+                    $('#id' + i + '_' + j).addClass('on');
                 } else {
-                    $('#id' + i + '_' + j).removeClass('green');
-                    $('#id'+i+'_'+j).removeClass('red')
-                    $('#id'+i+'_'+j).removeClass('green')
+                    $('#id' + i + '_' + j).removeClass('on');
                 }
             }
         }
