@@ -12,7 +12,7 @@ So far we’ve used the sysfs to access the GPIO registers through /sys/class/gp
 1. Write a C program that reads from at least two switches and controls two LEDs (the built-in LEDs are fine). The GPIO pins used for the switches need to be from two different GPIO ports. This means you will have to use two separate mmap() calls.
 2. Modify gpioThru.c to read from a switch and control an LED.
 
-###Rotary Encoders
+### Rotary Encoders
 Modify your Etch-a-Sketch to use two rotary encoders. exerciese/sensors/eQEP has an example of how to read an encoder in Python.
 
 
