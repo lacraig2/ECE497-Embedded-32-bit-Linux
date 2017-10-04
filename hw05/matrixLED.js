@@ -171,8 +171,8 @@ function LEDclick(i, j) {
             }
             // console.log(i +" temp_green"+temp_green);
             // console.log(i +" temp_red "+ temp_red);/
-            to_return.push(temp_green);
-            to_return.push(temp_red);
+            to_return.push(temp_green.split("").reverse().join(""));
+            to_return.push(temp_red.split("").reverse().join(""));
         }
         return to_return;
 
