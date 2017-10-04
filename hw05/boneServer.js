@@ -217,8 +217,10 @@ io.sockets.on('connection', function (socket) {
     socket.on('i2cset', function(params) {
     // console.log(params);
 	// Double i since display has 2 bytes per LED
+        console.log('i2cset -y ' + busNum + ' ' + params.i2cNum + ' ' + params.i + ' ' +
+       params.disp);
 	   child_process.exec('i2cset -y ' + busNum + ' ' + params.i2cNum + ' ' + params.i + ' ' +
-		params.disp); 
+	   params.disp); 
     });
     
     socket.on('slider', function(slideNum, value) {
