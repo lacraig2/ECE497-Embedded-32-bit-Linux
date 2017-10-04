@@ -37,17 +37,20 @@ function LEDclick(i, j) {
     }
 
     disp = construct();
-    var toEmit = disp[2*i]+disp[(2*i)+1]
-    console.log("TO EMIT ", toEmit, toEmit.toString(16))
+    var toEmit_green = disp[2*i]
+    var toEmit_red = disp[(2*i)+1];
+    // console.log("TO EMIT ", toEmit, toEmit.toString(16))
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
-			     disp: '0x'+toEmit.toString(16)});
+			     disp: '0x'+toEmit_green.toString(16)});
+    socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i+1, 
+                 disp: '0x'+toEmit_red.toString(16)});
 //	socket.emit('i2c', i2cNum);
     // Toggle bit on display
-    if(disp[i]>>j&0x1 === 1) {
-        $('#id'+i+'_'+j).addClass('on');
-    } else {
-        $('#id'+i+'_'+j).removeClass('on');
-    }
+    // if(disp[i]>>j&0x1 === 1) {
+    //     $('#id'+i+'_'+j).addClass('on');
+    // } else {
+    //     $('#id'+i+'_'+j).removeClass('on');
+    // }
 }
 
     function connect() {
