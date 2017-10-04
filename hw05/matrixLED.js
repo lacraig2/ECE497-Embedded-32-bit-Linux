@@ -35,11 +35,13 @@ function LEDclick(i, j) {
     }else {
         $('#id'+i+'_'+j).addClass('green');
     }
-
+    disp[i] ^= 0x1<<j;
     disp = construct();
     var toEmit_green = disp[2*i];
     var toEmit_red = disp[(2*i)+1];
     // console.log("TO EMIT ", toEmit, toEmit.toString(16))
+    console.log(toEmit_green.toString(16));
+    console.log(toEmit_red).toString(16));
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
 			     disp: '0x'+toEmit_green.toString(16)});
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i+1, 
@@ -167,8 +169,8 @@ function LEDclick(i, j) {
                     temp_red = temp_red.concat("0");
                 }
             }
-            console.log(i +" temp_green"+temp_green);
-            console.log(i +" temp_red "+ temp_red);
+            // console.log(i +" temp_green"+temp_green);
+            // console.log(i +" temp_red "+ temp_red);/
             to_return.push(temp_green);
             to_return.push(temp_red);
         }
