@@ -12,10 +12,26 @@ Dr. Yoder's  matrixLED.js only controls one of the two LEDs in the matrix.  Your
 
 ## Work
 ### matrixLED
-1. 
+1. I wrote this high level paragraph as a response to Q1:
+	- The systems work by a system of callbacks on events. These events are sent throught the client-side javascript to the server side javascript. Some of these events are startup, click, and shutdown. The matrix function returns a string of the return from the i2cdump.
+2. I wrote this response as an answer to Q2:
+	- A socket.emit is called, which the server listens for, and the server calls a subprocess with the appopriate arguments to i2cset (a system call).
+3. I wrote this response as an answer to Q3:
+	- The "on" class is used as the green color.
+4. I wrote this high-level paragraph as a response to Q4:
+	- I am going to adjust the I am going to use the CSS classes and the use those classes to track javascript structures to save the state of the array. Then I am going to adjust the method to check the initial state to represent these structures. Then I am going to change ledClick() to use these structures. Then I am going to write a method to return the hex values to pass to i2cset.
+
+5. I started from Dr. Yoder's realtime folder.
+6. I added CSS classes to be able to have green, red, and yellow states. I adjusted this in [matrixLED.css](matrixLED.css). 
+7. I changed [matrixLED.js](matrixLED.js) to to use the CSS classes.
+8. I changed [matrixLED.js](matrixLED.js) to use the added classes to track javascript structures. 
+9. I changed [matrixLED.js](matrixLED.js) to use the method to check the initial state to represent these structures. 
+10. I changed [matrixLED.js](matrixLED.js) to change ledClick() to use these structures. 
+11. I changed [matrixLED.js](matrixLED.js) to write a method to return the hex values to pass to i2cset.
+12. At this point it worked properly (though I had a lot of trouble with implementation. As it turns out my representation needed to be reversed in the x and y direction).
 
 
-### Requerements:
+### Requirements:
 A unix system with Python 2 or 3. This only requires the curses library in python (should be default on Unix systems).
 
 ### Instructions:
