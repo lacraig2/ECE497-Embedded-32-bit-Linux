@@ -37,7 +37,7 @@ function LEDclick(i, j) {
     }
 
     disp = construct();
-    var toEmit_green = disp[2*i]
+    var toEmit_green = disp[2*i];
     var toEmit_red = disp[(2*i)+1];
     // console.log("TO EMIT ", toEmit, toEmit.toString(16))
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
@@ -167,8 +167,10 @@ function LEDclick(i, j) {
                     temp_red = temp_red.concat("0");
                 }
             }
-            to_return.push(temp_red);
+            console.log(i +" temp_green"+temp_green);
+            console.log(i +" temp_red "+ temp_red);
             to_return.push(temp_green);
+            to_return.push(temp_red);
         }
         return to_return;
     }
