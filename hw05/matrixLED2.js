@@ -24,16 +24,35 @@ $("#slider1").slider({min:0, max:15, slide: function(event, ui) {
 // Send one column when LED is clicked.
 function LEDclick(i, j) {
 //	alert(i+","+j+" clicked");
+    if ($('#id'+i+'_'+j).hasClass('green')){
+        $('#id'+i+'_'+j).addClass('red');
+        $('#id'+i+'_'+j).removeClass('green');
+    }else if ($('#id'+i+'_'+j).hasClass('red')){
+        $('#id'+i+'_'+j).addClass('yellow');
+        $('#id'+i+'_'+j).removeClass('red');
+    }else if ($('#id'+i+'_'+j).hasClass('yellow')){
+        $('#id'+i+'_'+j).removeClass('yellow');
+    }else {
+        $('#id'+i+'_'+j).addClass('green');
+    }
     disp[i] ^= 0x1<<j;
+    disp = construct();
+    var toEmit_green = disp[2*i];
+    var toEmit_red = disp[(2*i)+1];
+    // console.log("TO EMIT ", toEmit, toEmit.toString(16))
+    console.log(toEmit_green.toString(16));
+    console.log(toEmit_red.toString(16));
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
-			     disp: '0x'+disp[i].toString(16)});
+			     disp: '0x'+toEmit_green.toString(16)});
+    socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i+1, 
+                 disp: '0x'+toEmit_red.toString(16)});
 //	socket.emit('i2c', i2cNum);
     // Toggle bit on display
-    if(disp[i]>>j&0x1 === 1) {
-        $('#id'+i+'_'+j).addClass('on');
-    } else {
-        $('#id'+i+'_'+j).removeClass('on');
-    }
+    // if(disp[i]>>j&0x1 === 1) {
+    //     $('#id'+i+'_'+j).addClass('on');
+    // } else {
+    //     $('#id'+i+'_'+j).removeClass('on');
+    // }
 }
 
     function connect() {
@@ -100,13 +119,65 @@ function LEDclick(i, j) {
             // j cycles through each bit
             for (j = 0; j < 8; j++) {
                 if (((disp[i] >> j) & 0x1) === 1) {
-                    $('#id' + i + '_' + j).addClass('on');
+                    $('#id' + i + '_' + j).addClass('green');
                 } else {
-                    $('#id' + i + '_' + j).removeClass('on');
+                    $('#id' + i + '_' + j).removeClass('green');
                 }
             }
         }
+
+
+        for (i = 0; i < data.length; i += 2) {
+            disp[i / 2] = parseInt(data[i+1], 16);
+        }
+        //        status_update("disp: " + disp);
+        // i cycles through each column
+        for (i = 0; i < disp.length; i++) {
+            // j cycles through each bit
+            for (j = 0; j < 8; j++) {
+                if (((disp[i] >> j) & 0x1) === 1) {
+                    if ($('#id' + i + '_' + j).hasClass('green')){
+                        $('#id' + i + '_' + j).addClass('yellow');
+                    }else {
+                        $('#id' + i + '_' + j).addClass('red');
+                    }
+                } else {
+                    $('#id' + i + '_' + j).removeClass('red');
+                }
+            }
+        }
+
+
     }
+
+    function construct(){
+        var to_return = []
+        var i,j;
+        for (i=0; i<8; i++){
+            var temp_red = "";
+            var temp_green = "";
+            for (j=0; j<8; j++){
+                if ($('#id' + i + '_' + j).hasClass('green') || $('#id' + i + '_' + j).hasClass('yellow')){
+                    temp_green = temp_green.concat("1");
+                }else{
+                    temp_green = temp_green.concat("0");
+                }
+                
+                if ($('#id' + i + '_' + j).hasClass('red') || $('#id' + i + '_' + j).hasClass('yellow')){
+                    temp_red = temp_red.concat("1");
+                }else {
+                    temp_red = temp_red.concat("0");
+                }
+            }
+            // console.log(i +" temp_green"+temp_green);
+            // console.log(i +" temp_red "+ temp_red);/
+            to_return.push(temp_green);
+            to_return.push(temp_red);
+        }
+        return to_return;
+
+    }
+
 
     function status_update(txt){
 	$('#status').html(txt);
