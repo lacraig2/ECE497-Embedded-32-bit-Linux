@@ -43,9 +43,9 @@ function LEDclick(i, j) {
     console.log(toEmit_green.toString(16));
     console.log(toEmit_red.toString(16));
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
-			     disp: '0b'+parseInt(toEmit_green,2).toString(16)});
+			     disp: '0x'+parseInt(toEmit_green,2).toString(16)});
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i+1, 
-                 disp: '0b'+parseInt(toEmit_red,2).toString(16)});
+                 disp: '0x'+parseInt(toEmit_red,2).toString(16)});
 //	socket.emit('i2c', i2cNum);
     // Toggle bit on display
     // if(disp[i]>>j&0x1 === 1) {
