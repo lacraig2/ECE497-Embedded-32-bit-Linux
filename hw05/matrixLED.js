@@ -164,7 +164,8 @@ function LEDclick(i, j) {
                     temp_red = temp_red.concat("0");
                 }
             }
-            to_return.push(temp)
+            to_return.push(temp_red);
+            to_return.push(temp_green);
         }
         return to_return;
     }
