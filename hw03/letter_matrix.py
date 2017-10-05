@@ -1,9 +1,6 @@
-#!/usr/bin/python
-
-# By: Luke Craig
-# Dr. Yoder
-# ECE497 Embedded 32-bit Linux
-# HW03
+#!/usr/bin/env python3
+# Write an 8x8 Red/Green LED matrix
+# https://www.adafruit.com/product/902
 
 import smbus
 from time import sleep
@@ -71,6 +68,6 @@ def main():
 	colors = [matrix.BLACK, matrix.YELLOW, matrix.RED, matrix.GREEN]
 	while True:
 		matrix.set_pixel(randint(0,7), randint(0,7), colors[randint(1,3)])
-		sleep(0.0005)
+		sleep(0.005)
 if __name__ == "__main__":
 	main()

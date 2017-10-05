@@ -9,6 +9,9 @@ from curses import KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT, curs_set, wrapper
 from optparse import OptionParser
 from math import log10
 
+GPIOs = {"GP1_3": GPIO.RISING, "GP1_4": GPIO.FALLING, "RED": GPIO.RISING,"GREEN": GPIO.FALLING}
+game = None
+
 class Game:
     def __init__(self, n, m=None):
         '''The initializer for the game sets up the initial position and the game board'''
@@ -52,6 +55,11 @@ class Game:
 def num_spaces(n):
     return int(log10(n))+1
 
+def update_game(channel):
+	if game:
+		game.clear()	
+
+
 def main(stdscr):
     # parse command line options
     parser = OptionParser()
@@ -72,6 +80,11 @@ def main(stdscr):
         game = Game(n if n < 25 else 8)
     else:
         game = Game(8,8) # default
+    
+    # set up pins
+	for i in GPIOs:
+		GPIO.setup(i, GPIO.IN)
+		GPIO.add_event_detect(i, GPIOs[i],callback=update_game)
 
     # run main game
     while True:
@@ -83,21 +96,21 @@ def main(stdscr):
         curs_set(0) # this just prevents a blinking cursor
 
         #take user input
-        a = stdscr.getch()
+        #a = stdscr.getch()
 
         #react to user input appopriately with game logic
-        if a == ord('q') or a == ord('Q'):
-           break
-        elif a == KEY_DOWN:
-           game.down()
-        elif a == KEY_UP:
-           game.up()
-        elif a == KEY_LEFT:
-           game.left()
-        elif a == KEY_RIGHT:
-           game.right()
-        elif a == ord('c') or a == ord('C'):
-           game.clear()
+        #if a == ord('q') or a == ord('Q'):
+        #   break
+        #elif a == KEY_DOWN:
+        #   game.down()
+        #elif a == KEY_UP:
+         #  game.up()
+        #elif a == KEY_LEFT:
+        #   game.left()
+        #elif a == KEY_RIGHT:
+        #   game.right()
+        #elif a == ord('c') or a == ord('C'):
+        #   game.clear()
 
 # start GUI from curses
 wrapper(main)
