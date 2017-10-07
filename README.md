@@ -19,3 +19,6 @@
 
 ### [Homework 5](hw05)
 - Completed. No issues.
+
+### [Homework 6](hw06)
+- Started.

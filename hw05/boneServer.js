@@ -258,7 +258,7 @@ function startAudio(){
             "-Dplughw:1,0",
             "-c2", "-r"+audioRate, "-fU8", "-traw", 
             "--buffer-size=800", "--period-size=800", "-N"
-           ]
+           ]    
         );
         } else {
         audioChild = child_process.spawn(
