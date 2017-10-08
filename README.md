@@ -21,4 +21,4 @@
 - Completed. No issues.
 
 ### [Homework 6](hw06)
-- Started.
+- Completed. Might add a couple more features. We'll see.
