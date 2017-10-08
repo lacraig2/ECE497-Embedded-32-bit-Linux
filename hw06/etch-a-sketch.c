@@ -20,26 +20,12 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
 #include "/opt/source/Robotics_Cape_Installer/libraries/roboticscape.h"
 
-// char reset = 0;
-
-// /****************************************************************
-//  * signal_handler
-//  ****************************************************************/
-// void signal_handler(int sig);
-// // Callback called when SIGINT is sent to the process (Ctrl-C)
-// void signal_handler(int sig){
-//     if (sig == 3){
-//         reset = 1;
-//     }
-//     return;
-// }
-
 int main(int argc, char **argv, char *envp[]){
-    int *fbp = 0;
     int fbfd = 0;
     struct fb_var_screeninfo vinfo;
     struct fb_fix_screeninfo finfo;
     long int screensize = 0;
+    char *fbp = 0;
     int x = 0, y = 1;       // Make it so the it runs before the encoder is moved
     int xold = 0, yold = 0;
     long int location = 0;
@@ -84,71 +70,57 @@ int main(int argc, char **argv, char *envp[]){
     printf("The framebuffer device was mapped to memory successfully.\n");
 
     // initialize hardware first
-	if(rc_initialize()){
-		fprintf(stderr,"ERROR: failed to run rc_initialize(), are you root?\n");
-		return -1;
-	}
+    if(rc_initialize()){
+        fprintf(stderr,"ERROR: failed to run rc_initialize(), are you root?\n");
+        return -1;
+    }
 
-	printf("\nRaw encoder positions\n");
-	printf("   E1   |");
-	printf("   E2   |");
-	printf("   E3   |");
-	printf("   E4   |");
-	printf(" \n");
-	
-	// Black out the screen
-	short color = (0<<11) | (0 << 5) | 8;  // RGB
-	for(int i=0; i<screensize; i+=2) {
-	    fbp[i  ] = color;      // Lower 8 bits
-	    fbp[i+1] = color>>8;   // Upper 8 bits
-	}
+    printf("\nRaw encoder positions\n");
+    printf("   E1   |");
+    printf("   E2   |");
+    printf("   E3   |");
+    printf("   E4   |");
+    printf(" \n");
+    
+    // Black out the screen
+    short color = (0<<11) | (0 << 5) | 8;  // RGB
+    for(int i=0; i<screensize; i+=2) {
+        fbp[i  ] = color;      // Lower 8 bits
+        fbp[i+1] = color>>8;   // Upper 8 bits
+    }
 
     int q = 0;
     for (q=0; q<argc; q++){
         printf("%d %s", q, argv[q]);
     }
 
-    // here I take an argument if available and parse it for later use (line width)
-    int z = 0;
-    if (argc > 1){
-        z = atoi(argv[1])/2;
-        if (z < 0 || z > 240){
-            z = 0;
+    while(rc_get_state() != EXITING) {
+        printf("\r");
+        for(int i=1; i<=4; i++){
+            printf("%6d  |", rc_get_encoder_pos(i));
         }
-    }
-
-	while(rc_get_state() != EXITING) {
-		printf("\r");
-		for(int i=1; i<=4; i++){
-			printf("%6d  |", rc_get_encoder_pos(i));
-		}
-		fflush(stdout);
+        fflush(stdout);
         // Update framebuffer
         // Figure out where in memory to put the pixel
         x = (rc_get_encoder_pos(1)/2 + vinfo.xres) % vinfo.xres;
         y = (rc_get_encoder_pos(3)/2 + vinfo.yres) % vinfo.yres;
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
+        int z = 0;
+        if (argc > 1){
+            z = atoi(argv[1])/2;
+            if (z < 0 || z > 240){
+                z = 0;
+            }
+        }
 
-        // if (reset == 1){
-        //     // Black out the screen
-        //     short color = (0<<11) | (0 << 5) | 8;  // RGB
-        //     for(int i=0; i<screensize; i+=2) {
-        //         fbp[i  ] = color;      // Lower 8 bits
-        //         fbp[i+1] = color>>8;   // Upper 8 bits
-        //     }
-        //     // reset = 0;
-        // }
 
         if((x != xold) || (y != yold)) {
             int i = 0, j= 0;
-            /**
-            Here I just loop over old pizels and paint them green and then paint new pizels white. I do this in two directions (which is why we divide by 2 above).
-            */
+            // printf("\n");
             for (i=-z; i<=z; i++){
                 for (j=-z; j<=z; j++){
                     location = (xold+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
                                (yold+j+vinfo.yoffset) * finfo.line_length;
-                    // Set old location to green
                     int r = 0;     // 5 bits
                     int g = 17;      // 6 bits
                     int b = 0;      // 5 bits
@@ -161,6 +133,7 @@ int main(int argc, char **argv, char *envp[]){
                 for (j=-z; j<=z; j++){
                     // printf("position: %d %d\n", i, j);
                     // printf("Updating location to %d, %d\n", x+i, y+j);
+                    // // Set old location to green
                     // Set new location to white
                     location = (x+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
                                (y+j+vinfo.yoffset) * finfo.line_length;
@@ -170,11 +143,11 @@ int main(int argc, char **argv, char *envp[]){
             xold = x;
             yold = y;
         }
-		
-		rc_usleep(5000);
-	}
-	
-	rc_cleanup();
+        
+        rc_usleep(5000);
+    }
+    
+    rc_cleanup();
     
     munmap(fbp, screensize);
     close(fbfd);
