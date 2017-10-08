@@ -37,7 +37,7 @@ void signal_handler(int sig){
             fbp[i+1] = color>>8;   // Upper 8 bits
         }
         return;
-    }elif (sig == 2){
+    } else if (sig == 2){
         exit(0);
     }
     return;
