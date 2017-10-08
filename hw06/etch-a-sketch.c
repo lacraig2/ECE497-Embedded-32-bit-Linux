@@ -20,10 +20,10 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
 #include "/opt/source/Robotics_Cape_Installer/libraries/roboticscape.h"
 
-int paint_pixel(int x, int y){
+int paint_pixel(int x, int y, int xold, int yold, struct fb_fix_screeninfo finfo, struct fb_var_screeninfo vinfo, char* fbp){
     printf("Updating location to %d, %d\n", x, y);
     // Set old location to green
-    location = (xold+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+    long int location = (xold+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
                        (yold+vinfo.yoffset) * finfo.line_length;
     int r = 0;     // 5 bits
     int g = 17;      // 6 bits
@@ -49,7 +49,6 @@ int main()
     char *fbp = 0;
     int x = 0, y = 1;       // Make it so the it runs before the encoder is moved
     int xold = 0, yold = 0;
-    long int location = 0;
 
     // Open the file for reading and writing
     fbfd = open("/dev/fb0", O_RDWR);
@@ -123,7 +122,7 @@ int main()
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
         
         if((x != xold) || (y != yold)) {
-            (void)paint_pixel(x,y);
+            (void)paint_pixel(x,y,xold,yold,finfo,vinfo,fbp);
             xold = x;
             yold = y;
         }
