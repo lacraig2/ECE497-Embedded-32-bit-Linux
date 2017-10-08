@@ -9,6 +9,7 @@ Testing the Linux Framebuffer for Qtopia Core (qt4-x11-4.2.2)
 http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.html
 */
 
+#include <ctype.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -19,6 +20,20 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
 #include "/opt/source/Robotics_Cape_Installer/libraries/roboticscape.h"
+
+int get_color(char* cvalue){
+
+    char* pch = strtok(cvalue, ",");
+    int red = atoi(pch);
+    red = (red > 0 && red <=255) ? red : 0; 
+    int green = atoi(strtok(NULL, ","));
+    green = (green > 0 && green <=255) ? green : 0; 
+    int blue = atoi(strtok(NULL, ","));
+    blue = (blue > 0 && blue <=255) ? blue : 0;
+    unsigned short int t = red<<11 | green << 5 | blue;
+    return t;
+}
+
 
 int main(int argc, char **argv, char *envp[]){
     int fbfd = 0;
@@ -81,18 +96,51 @@ int main(int argc, char **argv, char *envp[]){
     printf("   E3   |");
     printf("   E4   |");
     printf(" \n");
-    
+
+    short color = (0<<11) | (0 << 5) | 8;  // RGB background color
+    int line_color = get_color(0,17,0);
+    int cursor_color = 0xff;
+    int z = 0;  //line width
+
+    while ((c = getopt (argc, argv, "abc:")) != -1){}
+    switch (c)
+      {
+      case 'bg_color':
+        char* cvalue = optarg;
+        color = get_color(cvalue);
+        break;
+      case 'line_color':
+        char* cvalue = optarg;
+        line_color = get_color(cvalue);
+      case 'cursor_color':
+        char* cvalue = optarg;
+        cursor_color = get_color(cvalue);
+      case 'line_width':
+        char* cvalue = optarg;
+        z = atoi(argv[1])/2;
+        if (z < 0 || z > 240)
+            z = 0;
+      case '?':
+        if (optopt == 'bg_color' || optopt == 'line_color' || optopt == 'cursor_color' || optopt == 'line_width')
+          fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+        else if (isprint (optopt))
+          fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+        else
+          fprintf (stderr,
+                   "Unknown option character `\\x%x'.\n",
+                   optopt);
+        return 1;
+      default:
+        abort ();
+      }
+    }
     // Black out the screen
-    short color = (0<<11) | (0 << 5) | 8;  // RGB
+    
     for(int i=0; i<screensize; i+=2) {
         fbp[i  ] = color;      // Lower 8 bits
         fbp[i+1] = color>>8;   // Upper 8 bits
     }
 
-    int q = 0;
-    for (q=0; q<argc; q++){
-        printf("%d %s", q, argv[q]);
-    }
 
     while(rc_get_state() != EXITING) {
         printf("\r");
@@ -104,15 +152,7 @@ int main(int argc, char **argv, char *envp[]){
         // Figure out where in memory to put the pixel
         x = (rc_get_encoder_pos(1)/2 + vinfo.xres) % vinfo.xres;
         y = (rc_get_encoder_pos(3)/2 + vinfo.yres) % vinfo.yres;
-        // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
-        int z = 0;
-        if (argc > 1){
-            z = atoi(argv[1])/2;
-            if (z < 0 || z > 240){
-                z = 0;
-            }
-        }
-
+        // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres)
 
         if((x != xold) || (y != yold)) {
             int i = 0, j= 0;
@@ -121,11 +161,7 @@ int main(int argc, char **argv, char *envp[]){
                 for (j=-z; j<=z; j++){
                     location = (xold+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
                                (yold+j+vinfo.yoffset) * finfo.line_length;
-                    int r = 0;     // 5 bits
-                    int g = 17;      // 6 bits
-                    int b = 0;      // 5 bits
-                    unsigned short int t = r<<11 | g << 5 | b;
-                    *((unsigned short int*)(fbp + location)) = t;
+                    *((unsigned short int*)(fbp + location)) = line_color;
                 }
             }
 
@@ -137,7 +173,7 @@ int main(int argc, char **argv, char *envp[]){
                     // Set new location to white
                     location = (x+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
                                (y+j+vinfo.yoffset) * finfo.line_length;
-                    *((unsigned short int*)(fbp + location)) = 0xff;
+                    *((unsigned short int*)(fbp + location)) = cursor_color;
                 }
             }
             xold = x;
