@@ -116,12 +116,9 @@ int main(int argc, char **argv, char *envp[]){
 
         if((x != xold) || (y != yold)) {
             int i = 0, j= 0;
-            printf("\n");
-            for (i=-z; i <= z; i++){
+            // printf("\n");
+            for (i=-z; i<=z; i++){
                 for (j=-z; j<=z; j++){
-                    printf("position: %d %d\n", i, j);
-                    printf("Updating location to %d, %d\n", x+i, y+j);
-                    // Set old location to green
                     location = (xold+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
                                (yold+j+vinfo.yoffset) * finfo.line_length;
                     int r = 0;     // 5 bits
@@ -129,7 +126,14 @@ int main(int argc, char **argv, char *envp[]){
                     int b = 0;      // 5 bits
                     unsigned short int t = r<<11 | g << 5 | b;
                     *((unsigned short int*)(fbp + location)) = t;
-                    
+                }
+            }
+
+            for (i=-z; i <= z; i++){
+                for (j=-z; j<=z; j++){
+                    // printf("position: %d %d\n", i, j);
+                    // printf("Updating location to %d, %d\n", x+i, y+j);
+                    // // Set old location to green
                     // Set new location to white
                     location = (x+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
                                (y+j+vinfo.yoffset) * finfo.line_length;
