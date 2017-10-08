@@ -106,18 +106,19 @@ int main(int argc, char **argv, char *envp[]){
     int cursor_color = 0xff;
     int z = 0;  //line width
     int c = 0;
+    char* cvalue = NULL;
     while ((c = getopt (argc, argv, "abc:")) != -1){
     switch (c)
       {
       case 'bg_color':
-        char* cvalue = optarg;
+        cvalue = optarg;
         color = get_color(cvalue);
         break;
       case 'line_color':
-        char* cvalue = optarg;
+        cvalue = optarg;
         line_color = get_color(cvalue);
       case 'cursor_color':
-        char* cvalue = optarg;
+        cvalue = optarg;
         cursor_color = get_color(cvalue);
       case 'line_width':
         char* cvalue = optarg;
