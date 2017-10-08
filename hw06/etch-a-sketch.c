@@ -34,6 +34,10 @@ int get_color(char* cvalue){
     return t;
 }
 
+int get_color_from_rgb(int red, int green, int blue){
+    unsigned short int t = red<<11 | green << 5 | blue;
+    return t;
+}
 
 int main(int argc, char **argv, char *envp[]){
     int fbfd = 0;
@@ -98,10 +102,10 @@ int main(int argc, char **argv, char *envp[]){
     printf(" \n");
 
     short color = (0<<11) | (0 << 5) | 8;  // RGB background color
-    int line_color = get_color(0,17,0);
+    int line_color = get_color_from_rgb(0,17,0);
     int cursor_color = 0xff;
     int z = 0;  //line width
-
+    char *cvalue = NULL;
     while ((c = getopt (argc, argv, "abc:")) != -1){}
     switch (c)
       {
