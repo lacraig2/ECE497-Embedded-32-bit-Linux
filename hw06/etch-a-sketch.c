@@ -105,7 +105,7 @@ int main(int argc, char **argv, char *envp[]){
     int line_color = get_color_from_rgb(0,17,0);
     int cursor_color = 0xff;
     int z = 0;  //line width
-    char *c = NULL;
+    int c = 0;
     while ((c = getopt (argc, argv, "abc:")) != -1){}
     switch (c)
       {
