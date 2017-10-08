@@ -20,8 +20,7 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
 #include "/opt/source/Robotics_Cape_Installer/libraries/roboticscape.h"
 
-int main()
-{
+int main(int argc, char *argv[], char *envp[]){
     int fbfd = 0;
     struct fb_var_screeninfo vinfo;
     struct fb_fix_screeninfo finfo;
@@ -102,6 +101,12 @@ int main()
         y = (rc_get_encoder_pos(3)/2 + vinfo.yres) % vinfo.yres;
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
         int z = 1;
+        if (argc > 2){
+            printf("%d", argc[2])
+            z = atoi(argc[2])/2;
+        }
+
+
         if((x != xold) || (y != yold)) {
             int i = 0, j= 0;
             printf("\n");
