@@ -20,19 +20,19 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
 #include "/opt/source/Robotics_Cape_Installer/libraries/roboticscape.h"
 
-char reset = 0;
+// char reset = 0;
 
-/****************************************************************
- * signal_handler
- ****************************************************************/
-void signal_handler(int sig);
-// Callback called when SIGINT is sent to the process (Ctrl-C)
-void signal_handler(int sig){
-    if (sig == 3){
-        reset = 1;
-    }
-    return;
-}
+// /****************************************************************
+//  * signal_handler
+//  ****************************************************************/
+// void signal_handler(int sig);
+// // Callback called when SIGINT is sent to the process (Ctrl-C)
+// void signal_handler(int sig){
+//     if (sig == 3){
+//         reset = 1;
+//     }
+//     return;
+// }
 
 int main(int argc, char **argv, char *envp[]){
     int *fbp = 0;
@@ -129,15 +129,15 @@ int main(int argc, char **argv, char *envp[]){
         y = (rc_get_encoder_pos(3)/2 + vinfo.yres) % vinfo.yres;
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
 
-        if (reset == 1){
-            // Black out the screen
-            short color = (0<<11) | (0 << 5) | 8;  // RGB
-            for(int i=0; i<screensize; i+=2) {
-                fbp[i  ] = color;      // Lower 8 bits
-                fbp[i+1] = color>>8;   // Upper 8 bits
-            }
-            reset = 0;
-        }
+        // if (reset == 1){
+        //     // Black out the screen
+        //     short color = (0<<11) | (0 << 5) | 8;  // RGB
+        //     for(int i=0; i<screensize; i+=2) {
+        //         fbp[i  ] = color;      // Lower 8 bits
+        //         fbp[i+1] = color>>8;   // Upper 8 bits
+        //     }
+        //     // reset = 0;
+        // }
 
         if((x != xold) || (y != yold)) {
             int i = 0, j= 0;
