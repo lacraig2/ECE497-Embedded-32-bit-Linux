@@ -117,14 +117,17 @@ int main(int argc, char **argv, char *envp[]){
       case 'line_color':
         cvalue = optarg;
         line_color = get_color(cvalue);
+        break;
       case 'cursor_color':
         cvalue = optarg;
         cursor_color = get_color(cvalue);
+        break;
       case 'line_width':
         char* cvalue = optarg;
         z = atoi(argv[1])/2;
         if (z < 0 || z > 240)
             z = 0;
+        break;
       case '?':
         if (optopt == 'bg_color' || optopt == 'line_color' || optopt == 'cursor_color' || optopt == 'line_width')
           fprintf (stderr, "Option -%c requires an argument.\n", optopt);
