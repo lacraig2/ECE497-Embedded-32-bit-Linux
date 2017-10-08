@@ -20,6 +20,26 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
 #include "/opt/source/Robotics_Cape_Installer/libraries/roboticscape.h"
 
+int paint_pixel(int x, int y){
+    printf("Updating location to %d, %d\n", x, y);
+    // Set old location to green
+    location = (xold+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                       (yold+vinfo.yoffset) * finfo.line_length;
+    int r = 0;     // 5 bits
+    int g = 17;      // 6 bits
+    int b = 0;      // 5 bits
+    unsigned short int t = r<<11 | g << 5 | b;
+    *((unsigned short int*)(fbp + location)) = t;
+            
+    // Set new location to white
+    location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+            (y+vinfo.yoffset) * finfo.line_length;
+    
+    *((unsigned short int*)(fbp + location)) = 0xff;
+    return 0;
+}
+
+
 int main()
 {
     int fbfd = 0;
@@ -103,21 +123,7 @@ int main()
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
         
         if((x != xold) || (y != yold)) {
-            printf("Updating location to %d, %d\n", x, y);
-            // Set old location to green
-            location = (xold+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-                       (yold+vinfo.yoffset) * finfo.line_length;
-            int r = 0;     // 5 bits
-            int g = 17;      // 6 bits
-            int b = 0;      // 5 bits
-            unsigned short int t = r<<11 | g << 5 | b;
-            *((unsigned short int*)(fbp + location)) = t;
-            
-            // Set new location to white
-            location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-                       (y+vinfo.yoffset) * finfo.line_length;
-    
-            *((unsigned short int*)(fbp + location)) = 0xff;
+            (void)paint_pixel(x,y);
             xold = x;
             yold = y;
         }

@@ -32,7 +32,7 @@ Dr. Yoder's  matrixLED.js only controls one of the two LEDs in the matrix.  Your
 
 
 ### Requirements:
-A unix system with Python 2 or 3. This only requires the curses library in python (should be default on Unix systems).
+nodejs.
 
 ### Instructions:
 Use buttons attached to GPIO pins to move the cursor. Use the PAUSE button to clear.
