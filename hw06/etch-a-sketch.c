@@ -110,19 +110,19 @@ int main(int argc, char **argv, char *envp[]){
     while ((c = getopt (argc, argv, "abc:")) != -1){
     switch (c)
       {
-      case 'bg_color':
+      case 'bg_color':;
         cvalue = optarg;
         color = get_color(cvalue);
         break;
-      case 'line_color':
+      case 'line_color':;
         cvalue = optarg;
         line_color = get_color(cvalue);
         break;
-      case 'cursor_color':
+      case 'cursor_color':;
         cvalue = optarg;
         cursor_color = get_color(cvalue);
         break;
-      case 'line_width':
+      case 'line_width':;
         char* cvalue = optarg;
         z = atoi(argv[1])/2;
         if (z < 0 || z > 240)
