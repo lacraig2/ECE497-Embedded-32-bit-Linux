@@ -20,7 +20,7 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
 #include "/opt/source/Robotics_Cape_Installer/libraries/roboticscape.h"
 
-long int screensize = 0;
+char reset = 0;
 
 /****************************************************************
  * signal_handler
@@ -28,17 +28,8 @@ long int screensize = 0;
 void signal_handler(int sig);
 // Callback called when SIGINT is sent to the process (Ctrl-C)
 void signal_handler(int sig){
-    int fbfd = open("/dev/fb0", O_RDWR);
-    int *fbp = (char *)mmap(0, screensize, PROT_READ | PROT_WRITE, MAP_SHARED, fbfd, 0);
     if (sig == 3){
-        short color = (0<<11) | (0 << 5) | 8;  // RGB
-        for(int i=0; i<screensize; i+=2) {
-            fbp[i  ] = color;      // Lower 8 bits
-            fbp[i+1] = color>>8;   // Upper 8 bits
-        }
-        return;
-    } else if (sig == 2){
-        exit(0);
+        reset = 1;
     }
     return;
 }
@@ -116,6 +107,15 @@ int main(int argc, char **argv, char *envp[]){
         printf("%d %s", q, argv[q]);
     }
 
+    // here I take an argument if available and parse it for later use (line width)
+    int z = 0;
+    if (argc > 1){
+        z = atoi(argv[1])/2;
+        if (z < 0 || z > 240){
+            z = 0;
+        }
+    }
+
 	while(rc_get_state() != EXITING) {
 		printf("\r");
 		for(int i=1; i<=4; i++){
@@ -128,15 +128,15 @@ int main(int argc, char **argv, char *envp[]){
         y = (rc_get_encoder_pos(3)/2 + vinfo.yres) % vinfo.yres;
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
 
-        // here I take an argument if available and parse it for later use (line width)
-        int z = 0;
-        if (argc > 1){
-            z = atoi(argv[1])/2;
-            if (z < 0 || z > 240){
-                z = 0;
+        if (reset == 1){
+            // Black out the screen
+            short color = (0<<11) | (0 << 5) | 8;  // RGB
+            for(int i=0; i<screensize; i+=2) {
+                fbp[i  ] = color;      // Lower 8 bits
+                fbp[i+1] = color>>8;   // Upper 8 bits
             }
+            reset = 0;
         }
-
 
         if((x != xold) || (y != yold)) {
             int i = 0, j= 0;
