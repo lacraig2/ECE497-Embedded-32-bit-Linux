@@ -108,7 +108,7 @@ int main()
             printf("\n");
             for (; i <= z; i++){
                 for (; j<=z; j++){
-                    printf("position: %d %d", i, j)
+                    printf("position: %d %d", i, j);
                     printf("Updating location to %d, %d\n", x+i, y+j);
                     // Set old location to green
                     location = (xold+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
