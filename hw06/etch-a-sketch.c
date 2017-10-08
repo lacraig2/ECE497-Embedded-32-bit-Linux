@@ -103,11 +103,10 @@ int main()
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
         int z = 1;
         if((x != xold) || (y != yold)) {
-            int i = 0-z;
-            int j = 0-z;
+            int i = 0, j= 0;
             printf("\n");
-            for (; i <= z; i++){
-                for (; j<=z; j++){
+            for (i=-z; i <= z; i++){
+                for (j=-z; j<=z; j++){
                     printf("position: %d %d\n", i, j);
                     printf("Updating location to %d, %d\n", x+i, y+j);
                     // Set old location to green
