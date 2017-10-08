@@ -20,9 +20,7 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
 #include "/opt/source/Robotics_Cape_Installer/libraries/roboticscape.h"
 
-
 long int screensize = 0;
-int *fbp = 0;
 
 /****************************************************************
  * signal_handler
@@ -30,6 +28,8 @@ int *fbp = 0;
 void signal_handler(int sig);
 // Callback called when SIGINT is sent to the process (Ctrl-C)
 void signal_handler(int sig){
+    int fbfd = open("/dev/fb0", O_RDWR);
+    int *fbp = (char *)mmap(0, screensize, PROT_READ | PROT_WRITE, MAP_SHARED, fbfd, 0);
     if (sig == 3){
         short color = (0<<11) | (0 << 5) | 8;  // RGB
         for(int i=0; i<screensize; i+=2) {
@@ -37,11 +37,14 @@ void signal_handler(int sig){
             fbp[i+1] = color>>8;   // Upper 8 bits
         }
         return;
+    }elif (sig == 2){
+        exit(0);
     }
-    exit(0);
+    return;
 }
 
 int main(int argc, char **argv, char *envp[]){
+    int *fbp = 0;
     int fbfd = 0;
     struct fb_var_screeninfo vinfo;
     struct fb_fix_screeninfo finfo;
