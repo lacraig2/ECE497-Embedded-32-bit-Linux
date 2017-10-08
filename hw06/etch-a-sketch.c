@@ -39,6 +39,7 @@ int main(int argc, char **argv, char *envp[]){
     int fbfd = 0;
     struct fb_var_screeninfo vinfo;
     struct fb_fix_screeninfo finfo;
+    long int screensize = 0;
     int x = 0, y = 1;       // Make it so the it runs before the encoder is moved
     int xold = 0, yold = 0;
     long int location = 0;
