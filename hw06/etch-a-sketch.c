@@ -102,7 +102,7 @@ int main(int argc, char *argv[], char *envp[]){
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
         int z = 1;
         if (argc > 2){
-            printf("%d", argc[2])
+            printf("%d", argc[2]);
             z = atoi(argc[2])/2;
         }
 
