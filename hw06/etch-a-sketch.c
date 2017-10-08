@@ -105,6 +105,7 @@ int main()
         if((x != xold) || (y != yold)) {
             int i = 0-z;
             int j = 0-z;
+            printf("\n");
             for (; i <= z; i++){
                 for (; j<=z; j++){
                     printf("Updating location to %d, %d\n", x+i, y+j);
