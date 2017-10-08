@@ -20,12 +20,31 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
 #include "/opt/source/Robotics_Cape_Installer/libraries/roboticscape.h"
 
+
+long int screensize = 0;
+int *fbp = 0;
+
+/****************************************************************
+ * signal_handler
+ ****************************************************************/
+void signal_handler(int sig);
+// Callback called when SIGINT is sent to the process (Ctrl-C)
+void signal_handler(int sig){
+    if (sig == 3){
+        short color = (0<<11) | (0 << 5) | 8;  // RGB
+        for(int i=0; i<screensize; i+=2) {
+            fbp[i  ] = color;      // Lower 8 bits
+            fbp[i+1] = color>>8;   // Upper 8 bits
+        }
+        return;
+    }
+    exit(0);
+}
+
 int main(int argc, char **argv, char *envp[]){
     int fbfd = 0;
     struct fb_var_screeninfo vinfo;
     struct fb_fix_screeninfo finfo;
-    long int screensize = 0;
-    char *fbp = 0;
     int x = 0, y = 1;       // Make it so the it runs before the encoder is moved
     int xold = 0, yold = 0;
     long int location = 0;
@@ -105,6 +124,8 @@ int main(int argc, char **argv, char *envp[]){
         x = (rc_get_encoder_pos(1)/2 + vinfo.xres) % vinfo.xres;
         y = (rc_get_encoder_pos(3)/2 + vinfo.yres) % vinfo.yres;
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
+
+        // here I take an argument if available and parse it for later use (line width)
         int z = 0;
         if (argc > 1){
             z = atoi(argv[1])/2;
@@ -116,11 +137,14 @@ int main(int argc, char **argv, char *envp[]){
 
         if((x != xold) || (y != yold)) {
             int i = 0, j= 0;
-            // printf("\n");
+            /**
+            Here I just loop over old pizels and paint them green and then paint new pizels white. I do this in two directions (which is why we divide by 2 above).
+            */
             for (i=-z; i<=z; i++){
                 for (j=-z; j<=z; j++){
                     location = (xold+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
                                (yold+j+vinfo.yoffset) * finfo.line_length;
+                    // Set old location to green
                     int r = 0;     // 5 bits
                     int g = 17;      // 6 bits
                     int b = 0;      // 5 bits
@@ -133,7 +157,6 @@ int main(int argc, char **argv, char *envp[]){
                 for (j=-z; j<=z; j++){
                     // printf("position: %d %d\n", i, j);
                     // printf("Updating location to %d, %d\n", x+i, y+j);
-                    // // Set old location to green
                     // Set new location to white
                     location = (x+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
                                (y+j+vinfo.yoffset) * finfo.line_length;
