@@ -20,26 +20,6 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
 #include "/opt/source/Robotics_Cape_Installer/libraries/roboticscape.h"
 
-int paint_pixel(int x, int y, int xold, int yold, struct fb_fix_screeninfo finfo, struct fb_var_screeninfo vinfo, char* fbp){
-    printf("Updating location to %d, %d\n", x, y);
-    // Set old location to green
-    long int location = (xold+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-                       (yold+vinfo.yoffset) * finfo.line_length;
-    int r = 0;     // 5 bits
-    int g = 17;      // 6 bits
-    int b = 0;      // 5 bits
-    unsigned short int t = r<<11 | g << 5 | b;
-    *((unsigned short int*)(fbp + location)) = t;
-            
-    // Set new location to white
-    location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-            (y+vinfo.yoffset) * finfo.line_length;
-    
-    *((unsigned short int*)(fbp + location)) = 0xff;
-    return 0;
-}
-
-
 int main()
 {
     int fbfd = 0;
@@ -49,6 +29,7 @@ int main()
     char *fbp = 0;
     int x = 0, y = 1;       // Make it so the it runs before the encoder is moved
     int xold = 0, yold = 0;
+    long int location = 0;
 
     // Open the file for reading and writing
     fbfd = open("/dev/fb0", O_RDWR);
@@ -120,9 +101,28 @@ int main()
         x = (rc_get_encoder_pos(1)/2 + vinfo.xres) % vinfo.xres;
         y = (rc_get_encoder_pos(3)/2 + vinfo.yres) % vinfo.yres;
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
-        
+        int z = 1;
         if((x != xold) || (y != yold)) {
-            (void)paint_pixel(x,y,xold,yold,finfo,vinfo,fbp);
+            int i = 0-z;
+            int j = 0-z;
+            for (; i <= z; i++){
+                for (; j<=z; j++){
+                    printf("Updating location to %d, %d\n", x+i, y+j);
+                    // Set old location to green
+                    location = (xold+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                               (yold+j+vinfo.yoffset) * finfo.line_length;
+                    int r = 0;     // 5 bits
+                    int g = 17;      // 6 bits
+                    int b = 0;      // 5 bits
+                    unsigned short int t = r<<11 | g << 5 | b;
+                    *((unsigned short int*)(fbp + location)) = t;
+                    
+                    // Set new location to white
+                    location = (i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                               (j+vinfo.yoffset) * finfo.line_length;
+                    *((unsigned short int*)(fbp + location)) = 0xff;
+                }
+            }
             xold = x;
             yold = y;
         }
