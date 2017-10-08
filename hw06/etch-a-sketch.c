@@ -106,7 +106,7 @@ int main(int argc, char **argv, char *envp[]){
     int cursor_color = 0xff;
     int z = 0;  //line width
     int c = 0;
-    while ((c = getopt (argc, argv, "abc:")) != -1){}
+    while ((c = getopt (argc, argv, "abc:")) != -1){
     switch (c)
       {
       case 'bg_color':
