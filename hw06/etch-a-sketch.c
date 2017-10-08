@@ -89,6 +89,11 @@ int main(int argc, char **argv, char *envp[]){
 	    fbp[i+1] = color>>8;   // Upper 8 bits
 	}
 
+    int q = 0;
+    for (q=0; q<argc; q++){
+        printf("%d %s", q, argv[q]);
+    }
+
 	while(rc_get_state() != EXITING) {
 		printf("\r");
 		for(int i=1; i<=4; i++){
