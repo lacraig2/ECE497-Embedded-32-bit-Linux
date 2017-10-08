@@ -120,8 +120,8 @@ int main()
                     *((unsigned short int*)(fbp + location)) = t;
                     
                     // Set new location to white
-                    location = (i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-                               (j+vinfo.yoffset) * finfo.line_length;
+                    location = (x+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                               (y+j+vinfo.yoffset) * finfo.line_length;
                     *((unsigned short int*)(fbp + location)) = 0xff;
                 }
             }
