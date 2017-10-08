@@ -105,10 +105,12 @@ int main(int argc, char **argv, char *envp[]){
         x = (rc_get_encoder_pos(1)/2 + vinfo.xres) % vinfo.xres;
         y = (rc_get_encoder_pos(3)/2 + vinfo.yres) % vinfo.yres;
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
-        int z = 1;
-        if (argc > 2){
-            printf("%d", argv[2]);
-            z = atoi(argv[2])/2;
+        int z = 0;
+        if (argc > 1){
+            z = atoi(argv[1])/2;
+            if (z < 0 || z > 240){
+                z = 0;
+            }
         }
 
 
