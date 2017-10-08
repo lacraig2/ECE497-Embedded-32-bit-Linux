@@ -123,7 +123,7 @@ int main(int argc, char **argv, char *envp[]){
         cursor_color = get_color(cvalue);
         break;
       case 'w': //line width
-        char* cvalue = optarg;
+        cvalue = optarg;
         z = atoi(argv[1])/2;
         if (z < 0 || z > 240)
             z = 0;
