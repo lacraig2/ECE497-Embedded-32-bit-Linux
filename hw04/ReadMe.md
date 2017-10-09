@@ -59,5 +59,7 @@ Use buttons attached to GPIO pins to move the cursor. Use the PAUSE button to cl
 
     `python etch_a_sketch.py -n 7 -m 4`
 
-
-
+# Comments from Prof. Yoder
+# Found your memory map file
+# Very nice documentation.  Thanks...
+# Grade:  10/10
