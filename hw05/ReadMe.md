@@ -19,7 +19,7 @@ Dr. Yoder's  matrixLED.js only controls one of the two LEDs in the matrix.  Your
 3. I wrote this response as an answer to Q3:
 	- The "on" class is used as the green color.
 4. I wrote this high-level paragraph as a response to Q4:
-	- I am going to adjust the I am going to use the CSS classes and the use those classes to track javascript structures to save the state of the array. Then I am going to adjust the method to check the initial state to represent these structures. Then I am going to change ledClick() to use these structures. Then I am going to write a method to return the hex values to pass to i2cset.
+	- I am going to use the CSS classes and the use those classes to track javascript structures to save the state of the array. Then I am going to adjust the method to check the initial state to represent these structures. Then I am going to change ledClick() to use these structures. Then I am going to write a method to return the hex values to pass to i2cset.
 
 5. I started from Dr. Yoder's realtime folder.
 6. I added CSS classes to be able to have green, red, and yellow states. I adjusted this in [matrixLED.css](matrixLED.css). 
@@ -40,3 +40,8 @@ Use buttons attached to GPIO pins to move the cursor. Use the PAUSE button to cl
 ### Usage:
 #### matrixLED
 - `sudo nodejs boneServer.js` (usually requires extended priviledges)
+
+# Comments from Prof. Yoder
+# Found your answers to the questions.  They look good.
+# Thanks for the demo.
+# Grade:  10/10
