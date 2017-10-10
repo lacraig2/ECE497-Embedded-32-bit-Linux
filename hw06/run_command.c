@@ -9,7 +9,7 @@ int main( int argc, char *argv[] )
   char path[1035];
 
   /* Open the command for reading. */
-  fp = popen("/bin/ls /etc/", "r");
+  fp = popen("", "r");
   if (fp == NULL) {
     printf("Failed to run command\n" );
     exit(1);
@@ -22,6 +22,5 @@ int main( int argc, char *argv[] )
 
   /* close */
   pclose(fp);
-
   return 0;
 }

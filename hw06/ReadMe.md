@@ -49,9 +49,9 @@ Look at the code in framebuffer.c and etch-a-sketch.c. Improve etch-a-sketch.  I
 - The instructions say 'if you have tried pygame'. I have never used pygame so I suppose I don't need to do this part? At least, that is my reading of this.
 
 ### Writing pixels to the LCD
-- I started from Dr. Yoder's etch-a-sketch.c and modified it to include additional features. I put these in [etch-a-sketch.c](etch-a-sketch.c)
-- I accomplished the wider line by using a method of looping over and writing to each side of the point.
-- I let the user select the line width by setting the amount write to each side by an argument.
+- I modified the original (preserved in [etch-a-sketch-original.c](etch-a-sketch-original.c)) program of Dr. Yoder's to take an argument 
+
+
 
 ### Requirements:
 - The install script should take care of most things. [install.sh](install.sh).
@@ -60,19 +60,5 @@ Look at the code in framebuffer.c and etch-a-sketch.c. Improve etch-a-sketch.  I
 - Use the rotary encoders to play the etch-a-sketch game.
 
 ### Usage:
-#### Display Images
-- `sudo display_images.sh`
-
-#### Play Movies
-- `modprobe fbtft_device name=adafruit28 busnum=1 rotate=0 gpios=reset:113,dc=116 cs=0`
-- `mplayer (video file)`
-
-#### Generate Text
-- `sudo ./text.sh`
-
-#### PyGame
-- not relevant
-
-#### Writing pixels to the LCD
-- `make`
-- `sudo ./etch-a-sketch 10` (where 10 is the width of the line. defaults to 1.)
+#### matrixLED
+- `sudo nodejs boneServer.js` (usually requires extended priviledges)

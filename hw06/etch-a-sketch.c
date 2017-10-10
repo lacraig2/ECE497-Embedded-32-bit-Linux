@@ -15,6 +15,7 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include <fcntl.h>
 #include <linux/fb.h>
 #include <sys/mman.h>
+#include <string.h> 
 #include <sys/ioctl.h>
 
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
@@ -112,6 +113,28 @@ int main(int argc, char **argv, char *envp[]){
                 z = 0;
             }
         }
+        int r = 0;     // 5 bits
+        int g = 17;      // 6 bits
+        int b = 0;      // 5 bits
+        unsigned short int t = r<<11 | g << 5 | b;
+        if (argc > 2){
+            if (strcmp(argc[2], "red")==0){
+                r = 255;
+                b = 0;
+                g = 0;
+                t = r<<11 | g << 5 | b;
+            }else if (strcmp(argc[2], "green")==0){
+                r = 0;
+                b = 0;
+                g = 255;
+                t = r<<11 | g << 5 | b;
+            }else if (strcmp(argc[2],"blue")==0){
+                r = 0;
+                b = 255;
+                g = 255;
+                t = r<<11 | g << 5 | b;
+            }
+        }
 
 
         if((x != xold) || (y != yold)) {
@@ -120,11 +143,7 @@ int main(int argc, char **argv, char *envp[]){
             for (i=-z; i<=z; i++){
                 for (j=-z; j<=z; j++){
                     location = (xold+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-                               (yold+j+vinfo.yoffset) * finfo.line_length;
-                    int r = 0;     // 5 bits
-                    int g = 17;      // 6 bits
-                    int b = 0;      // 5 bits
-                    unsigned short int t = r<<11 | g << 5 | b;
+                               (yold+j+vinfo.yoffset) * finfo.line_length;    
                     *((unsigned short int*)(fbp + location)) = t;
                 }
             }
