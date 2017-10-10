@@ -95,6 +95,36 @@ int main(int argc, char **argv, char *envp[]){
         printf("%d %s", q, argv[q]);
     }
 
+    int z = 0;
+    if (argc > 1){
+        z = atoi(argv[1])/2;
+        if (z < 0 || z > 240){
+            z = 0;
+        }
+    }
+    int r = 0;     // 5 bits
+    int g = 17;      // 6 bits
+    int b = 0;      // 5 bits
+    unsigned short int t = r<<11 | g << 5 | b;
+    if (argc > 2){
+        if (strcmp(argv[2], "red")==0){
+            r = 255;
+            b = 0;
+            g = 0;
+            t = r<<11 | g << 5 | b;
+        }else if (strcmp(argv[2], "green")==0){
+            r = 0;
+            b = 0;
+            g = 255;
+            t = r<<11 | g << 5 | b;
+        }else if (strcmp(argv[2],"blue")==0){
+            r = 0;
+            b = 255;
+            g = 255;
+            t = r<<11 | g << 5 | b;
+        }
+    }
+
     while(rc_get_state() != EXITING) {
         printf("\r");
         for(int i=1; i<=4; i++){
@@ -106,35 +136,7 @@ int main(int argc, char **argv, char *envp[]){
         x = (rc_get_encoder_pos(1)/2 + vinfo.xres) % vinfo.xres;
         y = (rc_get_encoder_pos(3)/2 + vinfo.yres) % vinfo.yres;
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
-        int z = 0;
-        if (argc > 1){
-            z = atoi(argv[1])/2;
-            if (z < 0 || z > 240){
-                z = 0;
-            }
-        }
-        int r = 0;     // 5 bits
-        int g = 17;      // 6 bits
-        int b = 0;      // 5 bits
-        unsigned short int t = r<<11 | g << 5 | b;
-        if (argc > 2){
-            if (strcmp(argc[2], "red")==0){
-                r = 255;
-                b = 0;
-                g = 0;
-                t = r<<11 | g << 5 | b;
-            }else if (strcmp(argc[2], "green")==0){
-                r = 0;
-                b = 0;
-                g = 255;
-                t = r<<11 | g << 5 | b;
-            }else if (strcmp(argc[2],"blue")==0){
-                r = 0;
-                b = 255;
-                g = 255;
-                t = r<<11 | g << 5 | b;
-            }
-        }
+        
 
 
         if((x != xold) || (y != yold)) {
