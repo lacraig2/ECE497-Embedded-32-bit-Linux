@@ -146,8 +146,8 @@ int main(int argc, char **argv, char *envp[]){
                 for (j=-z; j<=z; j++){
                     int write_x = (yold+j) % vinfo.xres;
                     int write_y = (xold+i) % vinfo.yres;
-                    location = (xwrite+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-                               (jwrite+vinfo.yoffset) * finfo.line_length;    
+                    location = (write_x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                               (write_y+vinfo.yoffset) * finfo.line_length;    
                     *((unsigned short int*)(fbp + location)) = t;
                 }
             }
