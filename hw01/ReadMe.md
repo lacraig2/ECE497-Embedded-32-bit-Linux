@@ -38,3 +38,6 @@ A unix system with Python 2 or 3. This only requires the curses library in pytho
 // See README requirements
 // Python code looks very nice
 // Grade:  7/10
+
+// 25-Oct-2017: Much better
+// New Grade: 9/10
