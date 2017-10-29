@@ -117,15 +117,15 @@ int main(int argc, char **argv, char *envp[]){
             // printf("\n");
             for (i=-z; i<=z; i++){
                 for (j=-z; j<=z; j++){
-                    location = (xold+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-                               (yold+j+vinfo.yoffset) * finfo.line_length;
+                    int loc_x = (xold+i)%320;
+                    int loc_y = (yold+j)%240;
+                    location = (loc_x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                               (loc_y+vinfo.yoffset) * finfo.line_length;
                     int r = 0;     // 5 bits
                     int g = 17;      // 6 bits
                     int b = 0;      // 5 bits
                     unsigned short int t = r<<11 | g << 5 | b;
-                    if (xold+i>= 0 && xold+i <320 && yold+j >=0 && yold+j <=240){
-                        *((unsigned short int*)(fbp + location)) = t;
-                    }
+                    *((unsigned short int*)(fbp + location)) = t;
                 }
             }
 
@@ -135,11 +135,11 @@ int main(int argc, char **argv, char *envp[]){
                     // printf("Updating location to %d, %d\n", x+i, y+j);
                     // // Set old location to green
                     // Set new location to white
-                    location = (x+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-                               (y+j+vinfo.yoffset) * finfo.line_length;
-                    if (xold+i>= 0 && xold+i <320 && yold+j >=0 && yold+j <=240){
-                        *((unsigned short int*)(fbp + location)) = 0xff;
-                    }
+                    int loc_x = (x+i)%320;
+                    int loc_y = (y+j)%240;
+                    location = (loc_x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                               (loc_y+vinfo.yoffset) * finfo.line_length;
+                    *((unsigned short int*)(fbp + location)) = 0xff;
                 }
             }
             xold = x;
