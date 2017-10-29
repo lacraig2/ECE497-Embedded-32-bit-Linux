@@ -123,7 +123,9 @@ int main(int argc, char **argv, char *envp[]){
                     int g = 17;      // 6 bits
                     int b = 0;      // 5 bits
                     unsigned short int t = r<<11 | g << 5 | b;
-                    *((unsigned short int*)(fbp + location)) = t;
+                    if (xold+i>= 0 && xold+i <320 && yold+j >=0 && yold+j <=240){}
+                        *((unsigned short int*)(fbp + location)) = t;
+                    }
                 }
             }
 
