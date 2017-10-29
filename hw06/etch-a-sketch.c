@@ -122,9 +122,9 @@ int main(int argc, char **argv, char *envp[]){
             b = 255;
             g = 255;
             t = r<<11 | g << 5 | b;
+            printf("setting blue");
         }
     }
-
     while(rc_get_state() != EXITING) {
         printf("\r");
         for(int i=1; i<=4; i++){
