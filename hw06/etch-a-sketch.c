@@ -68,7 +68,16 @@ int main(int argc, char **argv, char *envp[]){
             b = 255;
             g = 255;
             t = r<<11 | g << 5 | b;
-            printf("setting blue");
+        }else if (strcmp(argv[2],"black")==0){
+            r = 0;
+            b = 0;
+            g = 0;
+            t = 0;
+        }else if (strcmp(argv[2],"yellow")==0){
+            r = 255;
+            b = 0;
+            g = 255;
+            t = r<<11 | g<<5 | b;
         }
     }
 
