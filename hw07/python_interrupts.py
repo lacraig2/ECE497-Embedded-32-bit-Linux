@@ -1,6 +1,6 @@
 
-#!/usr/bin/env python3
-
+#!/usr/bin/env python
+import Adafruit_BBIO.GPIO as GPIO
 def update(channel):
 	# main logic for moving the cursor
 	GPIO.output("GP1_4",GPIO.input("GP1_3"))

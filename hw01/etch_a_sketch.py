@@ -8,6 +8,7 @@
 from curses import KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT, curs_set, wrapper
 from optparse import OptionParser
 from math import log10
+import Adafruit_BBIO.GPIO as GPIO
 
 GPIOs = {"GP1_3": GPIO.RISING, "GP1_4": GPIO.FALLING, "RED": GPIO.RISING,"GREEN": GPIO.FALLING}
 game = None
