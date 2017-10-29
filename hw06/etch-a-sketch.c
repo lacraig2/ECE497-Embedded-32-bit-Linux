@@ -115,8 +115,8 @@ int main(int argc, char **argv, char *envp[]){
         if((x != xold) || (y != yold)) {
             int i = 0, j= 0;
             // printf("\n");
-            for (i=-z; i<=z; i++){
-                for (j=-z; j<=z; j++){
+            for (i=0; i<=2*z; i++){
+                for (j=0; j<=2*z; j++){
                     int loc_x = (xold+i)%320;
                     int loc_y = (yold+j)%240;
                     location = (loc_x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
@@ -129,8 +129,8 @@ int main(int argc, char **argv, char *envp[]){
                 }
             }
 
-            for (i=-z; i <= z; i++){
-                for (j=-z; j<=z; j++){
+            for (i=0; i <=2*z; i++){
+                for (j=0; j<=2*z; j++){
                     // printf("position: %d %d\n", i, j);
                     // printf("Updating location to %d, %d\n", x+i, y+j);
                     // // Set old location to green
