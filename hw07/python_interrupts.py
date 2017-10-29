@@ -6,7 +6,7 @@ def update(channel):
 	GPIO.output("GP1_4",GPIO.input("GP1_3"))
 	
 
-def main(stdsc):
+def main():
 
 	# set up PAUSE pin for clear functionality
 	GPIO.setup("GP1_3", GPIO.IN)
