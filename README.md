@@ -21,4 +21,7 @@
 - Completed. No issues.
 
 ### [Homework 6](hw06)
-- Completed. Might add a couple more features. We'll see.
+- Completed. No issues.
+
+### [Homework 7](hw07)
+- Started. Late. I know. I had some trouble with homework 6 implementation with buffer overflows.

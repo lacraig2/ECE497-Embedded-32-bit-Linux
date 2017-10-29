@@ -62,3 +62,9 @@ Look at the code in framebuffer.c and etch-a-sketch.c. Improve etch-a-sketch.  I
 ### Usage:
 #### matrixLED
 - `sudo nodejs boneServer.js` (usually requires extended priviledges)
+
+#### Etch-A-Sketch
+- `make`
+- `sudo ./etch-a-sketch [dot size] [line color]`
+	- dot size: integer (e.g. 20) (default: 1)
+	- line color: red, green, blue, black, or yellow. (default: green)
