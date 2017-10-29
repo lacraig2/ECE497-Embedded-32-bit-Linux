@@ -2,15 +2,15 @@
 #!/usr/bin/env python
 import Adafruit_BBIO.GPIO as GPIO
 from time import sleep	
+
+
 def update(channel):
-	# print("called")
-	# main logic for moving the cursor
+	# just follow the pin
 	GPIO.output("GP1_4",GPIO.input("GP1_3"))
 	
-
 def main():
 
-	# set up PAUSE pin for clear functionality
+	# set up pins for clear functionality and callback structure
 	GPIO.setup("GP1_3", GPIO.IN)
 	GPIO.setup("GP1_4", GPIO.OUT)
 	GPIO.add_event_detect("GP1_3", GPIO.BOTH, callback=update)
