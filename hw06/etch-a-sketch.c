@@ -2,10 +2,8 @@
 To test that the Linux framebuffer is set up correctly, and that the device permissions
 are correct, use the program below which opens the frame buffer and draws a gradient-
 filled red square:
-
 retrieved from:
 Testing the Linux Framebuffer for Qtopia Core (qt4-x11-4.2.2)
-
 http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.html
 */
 
@@ -15,7 +13,6 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include <fcntl.h>
 #include <linux/fb.h>
 #include <sys/mman.h>
-#include <string.h> 
 #include <sys/ioctl.h>
 
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
@@ -95,36 +92,6 @@ int main(int argc, char **argv, char *envp[]){
         printf("%d %s", q, argv[q]);
     }
 
-    int z = 0;
-    if (argc > 1){
-        z = atoi(argv[1])/2;
-        if (z < 0 || z > 240){
-            z = 0;
-        }
-    }
-    int r = 0;     // 5 bits
-    int g = 17;      // 6 bits
-    int b = 0;      // 5 bits
-    unsigned short int t = r<<11 | g << 5 | b;
-    if (argc > 2){
-        if (strcmp(argv[2], "red")==0){
-            r = 255;
-            b = 0;
-            g = 0;
-            t = r<<11 | g << 5 | b;
-        }else if (strcmp(argv[2], "green")==0){
-            r = 0;
-            b = 0;
-            g = 255;
-            t = r<<11 | g << 5 | b;
-        }else if (strcmp(argv[2],"blue")==0){
-            r = 0;
-            b = 255;
-            g = 255;
-            t = r<<11 | g << 5 | b;
-            printf("setting blue");
-        }
-    }
     while(rc_get_state() != EXITING) {
         printf("\r");
         for(int i=1; i<=4; i++){
@@ -136,7 +103,13 @@ int main(int argc, char **argv, char *envp[]){
         x = (rc_get_encoder_pos(1)/2 + vinfo.xres) % vinfo.xres;
         y = (rc_get_encoder_pos(3)/2 + vinfo.yres) % vinfo.yres;
         // printf("xpos: %d, xres: %d\n", rc_get_encoder_pos(1), vinfo.xres);
-        
+        int z = 0;
+        if (argc > 1){
+            z = atoi(argv[1])/2;
+            if (z < 0 || z > 240){
+                z = 0;
+            }
+        }
 
 
         if((x != xold) || (y != yold)) {
@@ -144,10 +117,12 @@ int main(int argc, char **argv, char *envp[]){
             // printf("\n");
             for (i=-z; i<=z; i++){
                 for (j=-z; j<=z; j++){
-                    int write_x = (yold+j) % vinfo.xres;
-                    int write_y = (xold+i) % vinfo.yres;
-                    location = (write_x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-                               (write_y+vinfo.yoffset) * finfo.line_length;    
+                    location = (xold+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                               (yold+j+vinfo.yoffset) * finfo.line_length;
+                    int r = 0;     // 5 bits
+                    int g = 17;      // 6 bits
+                    int b = 0;      // 5 bits
+                    unsigned short int t = r<<11 | g << 5 | b;
                     *((unsigned short int*)(fbp + location)) = t;
                 }
             }
@@ -158,10 +133,8 @@ int main(int argc, char **argv, char *envp[]){
                     // printf("Updating location to %d, %d\n", x+i, y+j);
                     // // Set old location to green
                     // Set new location to white
-                    int write_x = (yold+j) % vinfo.xres;
-                    int write_y = (xold+i) % vinfo.yres;
-                    location = (write_x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-                               (write_y+vinfo.yoffset) * finfo.line_length;
+                    location = (x+i+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                               (y+j+vinfo.yoffset) * finfo.line_length;
                     *((unsigned short int*)(fbp + location)) = 0xff;
                 }
             }
