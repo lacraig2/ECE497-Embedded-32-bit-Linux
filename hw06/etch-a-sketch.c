@@ -48,6 +48,30 @@ int main(int argc, char **argv, char *envp[]){
         exit(3);
     }
 
+    int r = 0;     // 5 bits
+    int g = 17;      // 6 bits
+    int b = 0;      // 5 bits
+    unsigned short int t = r<<11 | g << 5 | b;
+    if (argc > 2){
+        if (strcmp(argv[2], "red")==0){
+            r = 255;
+            b = 0;
+            g = 0;
+            t = r<<11 | g << 5 | b;
+        }else if (strcmp(argv[2], "green")==0){
+            r = 0;
+            b = 0;
+            g = 255;
+            t = r<<11 | g << 5 | b;
+        }else if (strcmp(argv[2],"blue")==0){
+            r = 0;
+            b = 255;
+            g = 255;
+            t = r<<11 | g << 5 | b;
+            printf("setting blue");
+        }
+    }
+
     printf("%dx%d, %dbpp\n", vinfo.xres, vinfo.yres, vinfo.bits_per_pixel);
     printf("Offset: %dx%d, line_length: %d\n", vinfo.xoffset, vinfo.yoffset, finfo.line_length);
     
@@ -121,10 +145,10 @@ int main(int argc, char **argv, char *envp[]){
                     int loc_y = (yold+j)%240;
                     location = (loc_x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
                                (loc_y+vinfo.yoffset) * finfo.line_length;
-                    int r = 0;     // 5 bits
-                    int g = 17;      // 6 bits
-                    int b = 0;      // 5 bits
-                    unsigned short int t = r<<11 | g << 5 | b;
+                    // int r = 0;     // 5 bits
+                    // int g = 17;      // 6 bits
+                    // int b = 0;      // 5 bits
+                    // unsigned short int t = r<<11 | g << 5 | b;
                     *((unsigned short int*)(fbp + location)) = t;
                 }
             }
