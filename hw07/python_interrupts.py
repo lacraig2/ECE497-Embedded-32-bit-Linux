@@ -3,7 +3,7 @@
 import Adafruit_BBIO.GPIO as GPIO
 from time import sleep	
 def update(channel):
-	print("called")
+	# print("called")
 	# main logic for moving the cursor
 	GPIO.output("GP1_4",GPIO.input("GP1_3"))
 	
