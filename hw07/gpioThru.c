@@ -3,6 +3,7 @@
 // Read one gpio pin and write it out to another using mmap.
 // Be sure to set -O3 when compiling.
 // Modified by Mark A. Yoder  26-Sept-2013
+//C file using MMAP to read two buttons and toggle two leds
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/mman.h>
@@ -24,15 +25,15 @@ void signal_handler(int sig);
 void signal_handler(int sig)
 {
     printf( "\nCtrl-C pressed, cleaning up and exiting...\n" );
-	keepgoing = 0;
+    keepgoing = 0;
 }
 
 int main(int argc, char *argv[]) {
-    volatile void *gpio_addr;
-    volatile unsigned int *gpio_oe_addr;
-    volatile unsigned int *gpio_datain;
-    volatile unsigned int *gpio_setdataout_addr;
-    volatile unsigned int *gpio_cleardataout_addr;
+    volatile void *gpio_addr_led;
+    volatile unsigned int *gpio_oe_addr_l;
+    volatile unsigned int *gpio_datain_l;
+    volatile unsigned int *gpio_setdataout_addr_l;
+    volatile unsigned int *gpio_cleardataout_addr_l;
     unsigned int reg;
 
     // Set the signal callback for Ctrl-C
@@ -40,37 +41,37 @@ int main(int argc, char *argv[]) {
 
     int fd = open("/dev/mem", O_RDWR);
 
-    printf("Mapping %X - %X (size: %X)\n", GPIO3_START_ADDR, GPIO3_END_ADDR, 
-                                           GPIO3_SIZE);
+    //printf("Mapping %X - %X (size: %X)\n", GPIO0_START_ADDR, GPIO0_END_ADDR, 
+    //                                       GPIO0_SIZE);
 
-    gpio_addr = mmap(0, GPIO3_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 
+    gpio_addr_led    = mmap(0, GPIO3_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 
                         GPIO3_START_ADDR);
+    
+    gpio_oe_addr_l           = gpio_addr_led + GPIO_OE;
+    gpio_datain_l            = gpio_addr_led + GPIO_DATAIN;
+    gpio_setdataout_addr_l   = gpio_addr_led + GPIO_SETDATAOUT;
+    gpio_cleardataout_addr_l = gpio_addr_led + GPIO_CLEARDATAOUT;
 
-    gpio_oe_addr           = gpio_addr + GPIO_OE;
-    gpio_datain            = gpio_addr + GPIO_DATAIN;
-    gpio_setdataout_addr   = gpio_addr + GPIO_SETDATAOUT;
-    gpio_cleardataout_addr = gpio_addr + GPIO_CLEARDATAOUT;
-
-    if(gpio_addr == MAP_FAILED) {
+    if(gpio_addr_led == MAP_FAILED) {
         printf("Unable to map GPIO\n");
         exit(1);
     }
-    printf("GPIO mapped to %p\n", gpio_addr);
-    printf("GPIO OE mapped to %p\n", gpio_oe_addr);
-    printf("GPIO SETDATAOUTADDR mapped to %p\n", gpio_setdataout_addr);
-    printf("GPIO CLEARDATAOUT mapped to %p\n", gpio_cleardataout_addr);
+    printf("led GPIO mapped to %p\n", gpio_addr_led);
+    printf("led GPIO OE mapped to %p\n", gpio_oe_addr_l);
+    printf("led GPIO SETDATAOUTADDR mapped to %p\n", gpio_setdataout_addr_l);
+    printf("led GPIO CLEARDATAOUT mapped to %p\n", gpio_cleardataout_addr_l);
 
-    printf("Start copying GPIO_02 to GPIO_01\n");
+    printf("Start copying GPIO3[2] to GPIO3[1]\n");
     while(keepgoing) {
-    	if(*gpio_datain & GPIO_02) {
-            *gpio_setdataout_addr= GPIO_01;
-    	} else {
-            *gpio_cleardataout_addr = GPIO_01;
-    	}
+        if((*gpio_datain_l & GPIO_2)) {
+            *gpio_setdataout_addr_l= GPIO_1;
+        }else {
+            *gpio_cleardataout_addr_l = GPIO_1;
+        }
         //usleep(1);
     }
 
-    munmap((void *)gpio_addr, GPIO3_SIZE);
+    //munmap((void *)gpio_addr, GPIO0_SIZE);
     close(fd);
     return 0;
 }
