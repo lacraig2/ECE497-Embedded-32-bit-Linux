@@ -19,11 +19,11 @@ Modify the kernel driver presented [here](http://derekmolloy.ie/kernel-gpio-prog
 I developed a report from the result of my efforts. It is in [homework7report.pdf](homework7report.pdf)
 
 ### JavaScript, Python, Java or C
-Here I wrote a Python script using interrupts to detect a pin change. It is [here](python_interrupts.py)
+Here I wrote a Python script using interrupts to detect a pin change. It is [here](python_interrupts.py).
 ### mmap via C
 Here I wrote a program that uses mmap and polls for changes on the GPIO [here](gpioThru.c).
 ### Kernel
-Here I modified the kernel driver presented in the link above and made it utilize the functionality of copying different pins.
+Here I modified the kernel driver presented in the link above and made it utilize the functionality of copying different pins. It is [here](gpio_kernel.c).
 
 ### Requirements:
 - A beaglebone
