@@ -61,17 +61,17 @@ int main(int argc, char *argv[]) {
     printf("led GPIO SETDATAOUTADDR mapped to %p\n", gpio_setdataout_addr_l);
     printf("led GPIO CLEARDATAOUT mapped to %p\n", gpio_cleardataout_addr_l);
 
-    printf("Start copying GPIO3[2] to GPIO3[1]\n");
-    while(keepgoing) {
-        if((*gpio_datain_l & GPIO_2)) {
-            *gpio_setdataout_addr_l= GPIO_1;
+    printf("Start copying GPIO3-2 to GPIO3-1\n");
+    while(keepgoing) { //copying data
+        if((*gpio_datain_l & GPIO3_2)) {
+            *gpio_setdataout_addr_l= GPIO3_1;
         }else {
-            *gpio_cleardataout_addr_l = GPIO_1;
+            *gpio_cleardataout_addr_l = GPIO3_1;
         }
         //usleep(1);
     }
 
-    //munmap((void *)gpio_addr, GPIO0_SIZE);
+    munmap((void *)gpio_addr, GPIO0_SIZE);
     close(fd);
     return 0;
 }

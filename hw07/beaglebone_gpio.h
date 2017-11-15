@@ -1,3 +1,4 @@
+// From : http://stackoverflow.com/questions/13124271/driving-beaglebone-gpio-through-dev-mem
 #ifndef _BEAGLEBONE_GPIO_H_
 #define _BEAGLEBONE_GPIO_H_
 
@@ -23,11 +24,12 @@
 #define USR1 (1<<22)
 #define USR2 (1<<23)
 #define USR3 (1<<24)
-#define GPIO_1  (1<<1)
-#define GPIO_2  (1<<2)
-#define GPIO_3  (1<<3)
-#define GPIO_17 (1<<17)
-#define GPIO_25 (1<<25)
-#define GPIO_60  (1<<28)
+
 #define GPIO_07  (1<<7)
+#define GPIO3_1  (1<<1)
+#define GPIO3_2  (1<<2)
+#define GPIO_60  (1<<28)
+#define GPIO1_17 (1<<17)
+#define GPIO1_25 (1<<25)
+#define GPIO_03  (1<<3)
 #endif

@@ -1,4 +1,4 @@
-# Homework 6
+# Homework 7
 
 ## Requirements:
 ### Project
@@ -13,15 +13,29 @@ Write a C program that uses mmap to copy GP1_3 to GP1_4.
 ### Kernel
 Modify the kernel driver presented [here](http://derekmolloy.ie/kernel-gpio-programming-buttons-and-leds) to copy GP1_3 to GP1_4.
 
-
-
-
 ## Work
 
-### Requirements:
-- The install script should take care of most things. [install.sh](install.sh).
+### GPIO Speed
+I developed a report from the result of my efforts. It is in [homework7report.pdf](homework7report.pdf)
 
-### Instructions:
-- Use the rotary encoders to play the etch-a-sketch game.
+### JavaScript, Python, Java or C
+Here I wrote a Python script using interrupts to detect a pin change. It is [here](python_interrupts.py)
+### mmap via C
+Here I wrote a program that uses mmap and polls for changes on the GPIO [here](gpioThru.c).
+### Kernel
+Here I modified the kernel driver presented in the link above and made it utilize the functionality of copying different pins.
+
+### Requirements:
+- A beaglebone
+- Kernel Headers
 
 ### Usage:
+#### Python
+	- `sudo python python_interrupts.py`
+#### mmap via C
+	- `gcc -O3 -Wall gpioThru.c -o gpioThru`
+	- `sudo ./gpioThru`
+#### Kernel
+	- `make`
+	- `sudo insmod ./gpio_kernel.ko`
+	- `sudo rmmod GPIO_kernel`

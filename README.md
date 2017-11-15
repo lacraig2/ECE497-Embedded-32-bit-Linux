@@ -24,4 +24,7 @@
 - Completed. No issues.
 
 ### [Homework 7](hw07)
-- Started. Late. I know. I had some trouble with homework 6 implementation with buffer overflows.
+- Completed. No issues.
+
+### Conclusion
+- Fun class. Hard homeworks. Deep dives into material. I feel I am better for the experience and I enjoyed the class.
