@@ -5,7 +5,7 @@
 ### [Setup](setup)
 - The files are a slightly altered setup from Dr. Yoder's repository. It's really just a personal preference.
 
-### [Homework 1](hw01) (DR. YODER PLEASE REGRADE WHEN YOU GET A CHANCE)
+### [Homework 1](hw01)
 - Completed. No issues. 
 
 ### [Homework 2](hw02)
